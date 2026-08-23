@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE SMALL CAULK GANG — Ranked 5s Roster</title>
+<title>SIGMA STACK — Ranked 5s Roster</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -194,10 +194,13 @@
     padding:12px; font-family:'JetBrains Mono',monospace; font-size:12.5px; min-height:20px; display:none;
   }
   .tool-output.show{display:block;}
-  .lineup-row{display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid var(--line);}
+  .lineup-row{display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--line);}
   .lineup-row:last-child{border-bottom:none;}
   .lineup-row .role{color:var(--teal); text-transform:uppercase; font-size:10.5px;}
-  .lineup-row .who{color:var(--text);}
+  .lineup-row .who{color:var(--text); cursor:pointer; padding:3px 8px; border-radius:6px; border:1px solid transparent;}
+  .lineup-row .who:hover{border-color:var(--line); background:var(--bg2);}
+  .lineup-row .who.picked{border-color:var(--teal); background:rgba(10,200,185,0.12); color:var(--teal);}
+  .lineup-hint{font-size:11px; color:var(--muted); margin-bottom:8px;}
 
   /* ===== MODAL ===== */
   .overlay{
@@ -266,6 +269,15 @@
   .ban-chip img{width:28px; height:28px; border-radius:6px;}
   .ban-chip .bname{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px;}
 
+  .rec-list{display:flex; flex-direction:column; gap:10px;}
+  .rec-card{display:flex; gap:12px; align-items:center; background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:10px 14px;}
+  .rec-card img{width:44px; height:44px; border-radius:8px; flex-shrink:0;}
+  .rec-card .rec-kicker{font-family:'JetBrains Mono',monospace; font-size:9.5px; text-transform:uppercase; letter-spacing:0.08em;}
+  .rec-card.safe .rec-kicker{color:var(--teal);}
+  .rec-card.newtry .rec-kicker{color:var(--gold);}
+  .rec-card.bravery .rec-kicker{color:var(--danger);}
+  .rec-card .rec-name{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:15px;}
+  .rec-card .rec-note{font-size:12px; color:var(--muted); line-height:1.4; margin-top:2px;}
   .suggest-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
   .suggest-list li{
     background:var(--panel2); border:1px solid var(--line); border-left:3px solid var(--teal);
@@ -380,6 +392,7 @@
       <button class="tab-btn active" data-tab="overview">Overview</button>
       <button class="tab-btn" data-tab="champs">Champions</button>
       <button class="tab-btn" data-tab="bans">Ban List</button>
+      <button class="tab-btn" data-tab="recs">Try Something New</button>
       <button class="tab-btn" data-tab="suggest">Suggestions</button>
     </div>
     <div class="tab-panels">
@@ -413,6 +426,9 @@
       <div class="tab-panel" id="panel-bans">
         <div class="ban-note" id="banNote"></div>
         <div class="ban-list" id="banList"></div>
+      </div>
+      <div class="tab-panel" id="panel-recs">
+        <div class="rec-list" id="recList"></div>
       </div>
       <div class="tab-panel" id="panel-suggest">
         <ul class="suggest-list" id="suggestList"></ul>
@@ -542,6 +558,11 @@ const DEFAULT_ROSTER = [
     ],
     banNote:'Aggressive early lane bullies and hyper-mobile duelists give the ADC/Kha\u2019Zix pool the most trouble \u2014 immobile hypercarries like Aphelios get run down before they scale.',
     bans:['Draven','Samira','Zeri','Rengar'],
+    recs:{
+      safe:{name:'Jinx', note:'Another hyper-scaling ADC that wants to sit back and click on things \u2014 basically Aphelios\u2019s cousin.'},
+      newTry:{name:'Kindred', note:'Still a ranged auto-attacker, but jungle instead of bot \u2014 a natural stretch from the Kha\u2019Zix dabbling.'},
+      bravery:{name:'Ornn', note:'Slow, melee, unkillable, and never kites anything. The exact opposite of every champ on this list.'}
+    },
     badges:['Certified Dawg','Aphelios Sicko','Highest Rank In The Squad'],
     blurb:'The account with the actual peak. ADC-brained with a Kha\u2019Zix hall pass for when he wants to be the reason the enemy jungler ghosts the group chat.',
     suggestions:[
@@ -565,6 +586,11 @@ const DEFAULT_ROSTER = [
     ],
     banNote:'Champs that punish engage \u2014 shields, sustain, or dive before the hook even lands \u2014 turn Leona/Sona\u2019s whole game plan off.',
     bans:['Morgana','Pyke','Draven'],
+    recs:{
+      safe:{name:'Nautilus', note:'Same hook-and-engage fantasy as Leona, just tankier and harder to punish for missing it.'},
+      newTry:{name:'Neeko', note:'Flexes support or mid like the current pool does, but trades hooks for disguises and poke \u2014 same versatility, new toolkit.'},
+      bravery:{name:'Yone', note:'A selfish, flashy solo-carry with zero utility. Total 180 from playing support for the team.'}
+    },
     badges:['Flex God (Literally Everything)','Vibes Only','Support Menace'],
     blurb:'Plays ADC, Support, AND top-lane bruiser depending on the day. Mastery is spread thin across four totally different champ identities \u2014 the definition of "I just want to have fun."',
     suggestions:[
@@ -588,6 +614,11 @@ const DEFAULT_ROSTER = [
     ],
     banNote:'Early lane bullies and hyper-mobile ADCs beat Vayne/Caitlyn before the late-game payoff ever arrives.',
     bans:['Draven','Renata Glasc','Zeri'],
+    recs:{
+      safe:{name:'KogMaw', note:'Same "survive early, delete everyone late" fantasy as Vayne, just with a bigger button instead of a knife.'},
+      newTry:{name:'Lulu', note:'Keeps the Janna-style peel and utility identity but with a much more playful, whimsical kit.'},
+      bravery:{name:'Sett', note:'Melee, all-in, zero kiting, wins fights by walking forward. The complete opposite of a scaling ranged carry.'}
+    },
     badges:['The Irony','Vayne Sweatlord','Actually Not Feeding'],
     blurb:'The tag says #Feed. The rank says Emerald 3 with an 828K-point Vayne. This is either the most self-aware username in the game or a promise for later in the night.',
     suggestions:[
@@ -611,6 +642,11 @@ const DEFAULT_ROSTER = [
     ],
     banNote:'Dive-heavy assassins close the gap on poke mages before Xerath/Vel\u2019Koz/Veigar ever get a spell off.',
     bans:['Zed','Yasuo','Katarina'],
+    recs:{
+      safe:{name:'Ziggs', note:'Another long-range siege mage that never has to leave max range \u2014 basically a reskinned comfort zone.'},
+      newTry:{name:'Zoe', note:'Still a mage, but roams and dashes around instead of sitting still \u2014 same brain, more movement.'},
+      bravery:{name:'Vi', note:'Runs straight at people and punches them. No range, no poke, no safety \u2014 the anti-Xerath.'}
+    },
     badges:['Poke Goblin','Ratting From The Treeline','Range Advantage Enjoyer'],
     blurb:'Four mages, zero melee range. If the fight is happening more than 800 units away, SunShadowRay is winning it. If it closes the distance, that\u2019s a different story.',
     suggestions:[
@@ -634,6 +670,11 @@ const DEFAULT_ROSTER = [
     ],
     banNote:'Anything that shields, blinks, or tanks straight through a hook removes Blitz/Thresh\u2019s entire win condition.',
     bans:['Morgana','Renata Glasc','Poppy'],
+    recs:{
+      safe:{name:'Nautilus', note:'Same point-and-click engage fantasy as Blitz/Thresh, just built like a tank instead of relying on a perfect skillshot.'},
+      newTry:{name:'Rakan', note:'Still an engage support, but dashes and dives instead of throwing a hook \u2014 same job, very different feel.'},
+      bravery:{name:'Yuumi', note:'Never leaves an ally\u2019s side, never lands a hook, never commits to anything. The complete opposite of "hook or nothing."'}
+    },
     badges:['Hook Connoisseur','Menace With Grabs','Grab Or Nothing'],
     blurb:'Over half a million points on Blitzcrank alone. Every game is a coin flip between "perfect hook, ace the enemy team" and "grabbed a minion, apologize in all chat."',
     suggestions:[
@@ -862,6 +903,27 @@ function openPlayerModal(id){
 
   document.getElementById('suggestList').innerHTML = p.suggestions.map(s=>`<li>${s}</li>`).join('');
 
+  const recList = document.getElementById('recList');
+  if(p.recs){
+    const rows = [
+      {key:'safe', kicker:'Safe Pick', data:p.recs.safe},
+      {key:'newtry', kicker:'Want To Try Something New?', data:p.recs.newTry},
+      {key:'bravery', kicker:'Ultimate Bravery', data:p.recs.bravery},
+    ];
+    recList.innerHTML = rows.map(r=>`
+      <div class="rec-card ${r.key}">
+        <img src="${CHAMP_IMG(r.data.name)}" alt="${r.data.name}" onerror="this.style.display='none'">
+        <div>
+          <div class="rec-kicker">${r.kicker}</div>
+          <div class="rec-name">${r.data.name.replace(/([A-Z])/g,' $1').trim()}</div>
+          <div class="rec-note">${r.data.note}</div>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    recList.innerHTML = `<div class="rec-note">No recommendations yet for this player \u2014 add some champ pool notes and they'll show up here.</div>`;
+  }
+
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelector('.tab-btn[data-tab="overview"]').classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
@@ -965,29 +1027,59 @@ document.getElementById('refreshBtn').addEventListener('click', async ()=>{
 });
 
 // CAPTAIN TOOLS
-document.getElementById('lineupBtn').addEventListener('click', ()=>{
+let currentLineup = {};
+let lineupPicked = null;
+
+function buildLineup(){
   const pool = [...roster];
-  const assignment = {};
-  ROLE_ORDER.forEach(r=>assignment[r]=null);
+  currentLineup = {};
+  ROLE_ORDER.forEach(r=>currentLineup[r]=null);
   ROLE_ORDER.forEach(role=>{
     const idx = pool.findIndex(p=>p.roles.primary===role);
-    if(idx>-1){ assignment[role]=pool[idx]; pool.splice(idx,1); }
+    if(idx>-1){ currentLineup[role]=pool[idx]; pool.splice(idx,1); }
   });
   ROLE_ORDER.forEach(role=>{
-    if(!assignment[role]){
+    if(!currentLineup[role]){
       const idx = pool.findIndex(p=>p.roles.secondary===role);
-      if(idx>-1){ assignment[role]=pool[idx]; pool.splice(idx,1); }
+      if(idx>-1){ currentLineup[role]=pool[idx]; pool.splice(idx,1); }
     }
   });
   ROLE_ORDER.forEach(role=>{
-    if(!assignment[role] && pool.length){ assignment[role]=pool.shift(); }
+    if(!currentLineup[role] && pool.length){ currentLineup[role]=pool.shift(); }
   });
+  lineupPicked = null;
+  renderLineup();
+}
+
+function renderLineup(){
   const out = document.getElementById('lineupOutput');
-  out.innerHTML = ROLE_ORDER.map(role=>`
-    <div class="lineup-row"><span class="role">${role}</span><span class="who">${assignment[role] ? assignment[role].name : '\u2014 (need more players)'}</span></div>
+  out.innerHTML = `<div class="lineup-hint">Tap a name, then tap another to swap them.</div>` + ROLE_ORDER.map(role=>`
+    <div class="lineup-row">
+      <span class="role">${role}</span>
+      <span class="who ${lineupPicked===role ? 'picked':''}" data-role="${role}">${currentLineup[role] ? currentLineup[role].name : '\u2014 (need more players)'}</span>
+    </div>
   `).join('');
   out.classList.add('show');
-});
+  out.querySelectorAll('.who').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const role = el.dataset.role;
+      if(!currentLineup[role]) return;
+      if(lineupPicked===null){
+        lineupPicked = role;
+      } else if(lineupPicked===role){
+        lineupPicked = null;
+      } else {
+        const tmp = currentLineup[role];
+        currentLineup[role] = currentLineup[lineupPicked];
+        currentLineup[lineupPicked] = tmp;
+        lineupPicked = null;
+      }
+      renderLineup();
+    });
+  });
+}
+
+document.getElementById('lineupBtn').addEventListener('click', buildLineup);
 
 document.getElementById('coinBtn').addEventListener('click', ()=>{
   const pick = roster[Math.floor(Math.random()*roster.length)];
