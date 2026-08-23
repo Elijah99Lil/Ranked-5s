@@ -734,7 +734,7 @@ document.getElementById('createBoardBtn').addEventListener('click', async ()=>{
     await fetch(`${KVDB_BASE}/${id}/roster`, {method:'PUT', body:'[]'});
     alert(`Shared board created! Your ID is:\n\n${id}\n\nCopy this, paste it into SHARED_BUCKET_ID near the top of the <script> tag in index.html, save, and re-upload to GitHub. Everyone who opens the page after that will share this same board.`);
   }catch(e){
-    alert('Could not reach the shared storage service right now. Try again in a bit, or ask Bachie to set it up.');
+    alert('Could not reach the shared storage service.\n\nDetails: ' + (e && e.message ? e.message : e));
   }
   btn.disabled = false; btn.textContent = 'Create Shared Board';
 });
