@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGMA STACK — Ranked 5s Roster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0d12;
+    --bg2:#0d1117;
+    --panel:#12161d;
+    --panel2:#171c26;
+    --line:#252b36;
+    --gold:#c8aa6e;
+    --teal:#0ac8b9;
+    --text:#e9e9e4;
+    --muted:#8b93a1;
+    --bronze:#8c5a34;
+    --silver:#9fb0bd;
+    --gold-tier:#e0b23c;
+    --platinum:#3ec9b0;
+    --emerald:#1fae74;
+    --diamond:#5db8f5;
+    --unranked:#565d69;
+    --danger:#e15b5b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 15% 0%, rgba(10,200,185,0.07), transparent 40%),
+      radial-gradient(circle at 85% 10%, rgba(200,170,110,0.06), transparent 40%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding-bottom:80px;
+  }
+  h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:0.02em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:var(--teal);}
+
+  /* ===== HERO / LAN PASS HEADER ===== */
+  .hero{
+    max-width:1100px;margin:0 auto;padding:40px 24px 24px;
+  }
+  .pass{
+    border:1px dashed var(--line);
+    border-radius:14px;
+    background:linear-gradient(135deg, var(--panel) 0%, var(--panel2) 100%);
+    padding:28px 32px;
+    position:relative;
+    overflow:hidden;
+  }
+  .pass::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(115deg, transparent 0 40px, rgba(10,200,185,0.035) 40px 41px);
+    pointer-events:none;
+  }
+  .pass-eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--teal); margin-bottom:10px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .pass-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);}
+  .hero h1{
+    font-size:clamp(34px,6vw,56px);
+    margin:0 0 6px;
+    color:var(--gold);
+    text-shadow:0 0 30px rgba(200,170,110,0.25);
+    line-height:1;
+  }
+  .hero p.tagline{
+    color:var(--muted); font-size:16px; margin:0 0 20px; max-width:560px;
+  }
+  .hero-actions{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .btn{
+    font-family:'Rajdhani',sans-serif; font-weight:700; letter-spacing:0.04em;
+    font-size:14px; text-transform:uppercase;
+    padding:11px 18px; border-radius:8px; border:1px solid var(--line);
+    background:var(--panel2); color:var(--text); cursor:pointer;
+    transition:all .15s ease; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-1px);}
+  .btn.primary{background:var(--teal); color:#03211f; border-color:var(--teal);}
+  .btn.primary:hover{background:#0ee0cf; color:#03211f;}
+  .btn.gold{background:var(--gold); color:#2a2109; border-color:var(--gold);}
+  .btn.gold:hover{background:#ddc186;}
+  .btn.small{padding:6px 12px; font-size:12px;}
+  .btn.ghost{background:transparent;}
+  .copied-flag{font-size:12px; color:var(--teal); font-family:'JetBrains Mono',monospace; opacity:0; transition:opacity .2s;}
+  .copied-flag.show{opacity:1;}
+
+  .stat-row{display:flex; gap:24px; margin-top:22px; flex-wrap:wrap;}
+  .stat{font-family:'JetBrains Mono',monospace;}
+  .stat b{display:block; font-size:22px; color:var(--text);}
+  .stat span{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;}
+
+  /* ===== ROSTER GRID ===== */
+  .roster{max-width:1100px; margin:36px auto 0; padding:0 24px;}
+  .roster-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px; gap:12px; flex-wrap:wrap;}
+  .roster-head h2{font-size:22px; margin:0; color:var(--text);}
+  .roster-head .sub{color:var(--muted); font-size:13px;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px,1fr));
+    gap:16px;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    cursor:pointer;
+    position:relative;
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    display:flex; flex-direction:column;
+  }
+  .card:hover{transform:translateY(-3px); border-color:var(--teal); box-shadow:0 8px 24px rgba(0,0,0,0.35);}
+  .card .spine{position:absolute; left:0; top:0; bottom:0; width:5px;}
+  .card-top{display:flex; gap:12px; padding:16px 16px 10px 20px;}
+  .card-top img.icon{width:52px; height:52px; border-radius:10px; border:2px solid var(--line); object-fit:cover; flex-shrink:0;}
+  .card-name{min-width:0;}
+  .card-name .full{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:17px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .card-name .tag{color:var(--muted); font-size:12px; font-family:'JetBrains Mono',monospace;}
+  .card-name .lvl{font-size:11px; color:var(--muted); margin-top:2px;}
+  .badges{display:flex; flex-wrap:wrap; gap:6px; padding:0 20px 12px;}
+  .badge{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.03em;
+    padding:3px 8px; border-radius:20px; border:1px solid var(--line); color:var(--text); background:var(--panel2);
+    white-space:nowrap;
+  }
+  .rank-row{display:flex; gap:8px; padding:0 20px 16px; margin-top:auto;}
+  .rank-chip{
+    display:flex; align-items:center; gap:6px;
+    font-size:11px; padding:5px 8px; border-radius:6px; background:var(--panel2); border:1px solid var(--line);
+    flex:1; min-width:0;
+  }
+  .rank-chip img{width:18px; height:18px;}
+  .rank-chip .rlabel{color:var(--muted); font-size:9px; text-transform:uppercase; letter-spacing:0.06em; display:block;}
+  .rank-chip .rval{font-family:'JetBrains Mono',monospace; font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .remove-x{
+    position:absolute; top:8px; right:8px; width:22px; height:22px; border-radius:50%;
+    background:rgba(0,0,0,0.4); color:var(--danger); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:14px; cursor:pointer; z-index:2;
+  }
+  .remove-x:hover{background:var(--danger); color:#fff;}
+
+  .add-card{
+    border:1px dashed var(--line); background:transparent; display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:8px; min-height:170px; color:var(--muted);
+  }
+  .add-card:hover{border-color:var(--teal); color:var(--teal);}
+  .add-card .plus{font-size:30px; font-family:'Rajdhani',sans-serif;}
+
+  /* ===== MODAL ===== */
+  .overlay{
+    position:fixed; inset:0; background:rgba(4,6,9,0.78); backdrop-filter:blur(3px);
+    display:none; align-items:flex-start; justify-content:center; padding:40px 16px; z-index:50; overflow-y:auto;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--panel); border:1px solid var(--line); border-radius:16px; max-width:640px; width:100%;
+    overflow:hidden; animation:pop .15s ease;
+  }
+  @keyframes pop{from{transform:scale(.97); opacity:0;} to{transform:scale(1); opacity:1;}}
+  .modal-head{
+    display:flex; gap:16px; padding:24px; border-bottom:1px solid var(--line);
+    background:linear-gradient(135deg, var(--panel2), var(--panel));
+    position:relative;
+  }
+  .modal-head img.icon{width:72px; height:72px; border-radius:12px; border:2px solid var(--line);}
+  .modal-head h2{margin:0; font-size:24px;}
+  .modal-head .tagline-sm{color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:12px; margin-top:2px;}
+  .modal-close{position:absolute; top:16px; right:16px; background:none; border:none; color:var(--muted); font-size:22px; cursor:pointer;}
+  .modal-close:hover{color:var(--text);}
+  .modal-badges{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;}
+
+  .tabs{display:flex; border-bottom:1px solid var(--line); padding:0 24px;}
+  .tab-btn{
+    background:none; border:none; color:var(--muted); font-family:'Rajdhani',sans-serif; font-weight:700;
+    text-transform:uppercase; font-size:13px; letter-spacing:0.05em; padding:14px 4px; margin-right:24px;
+    cursor:pointer; border-bottom:2px solid transparent;
+  }
+  .tab-btn.active{color:var(--teal); border-color:var(--teal);}
+  .tab-panels{padding:22px 24px 26px; min-height:180px;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block; animation:fade .15s ease;}
+  @keyframes fade{from{opacity:0;} to{opacity:1;}}
+
+  .rank-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .rank-box{background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:14px;}
+  .rank-box .rb-label{font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:8px;}
+  .rank-box .rb-main{display:flex; align-items:center; gap:8px;}
+  .rank-box .rb-main img{width:34px; height:34px;}
+  .rank-box .rb-tier{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:16px;}
+  .rank-box .rb-lp{color:var(--muted); font-size:12px; font-family:'JetBrains Mono',monospace;}
+  .peak-line{margin-top:8px; font-size:11px; color:var(--muted);}
+
+  .champ-list{display:flex; flex-direction:column; gap:8px;}
+  .champ-row{display:flex; align-items:center; gap:12px; background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:8px 12px;}
+  .champ-row img{width:38px; height:38px; border-radius:8px;}
+  .champ-row .cname{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:15px;}
+  .champ-row .cpts{margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted);}
+
+  .suggest-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .suggest-list li{
+    background:var(--panel2); border:1px solid var(--line); border-left:3px solid var(--teal);
+    border-radius:8px; padding:10px 14px; font-size:13.5px; line-height:1.5;
+  }
+  .opgg-link{display:inline-flex; align-items:center; gap:6px; margin-top:16px; font-size:13px; font-family:'JetBrains Mono',monospace;}
+
+  /* ===== ADD PLAYER MODAL FORM ===== */
+  .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .form-grid .full{grid-column:1/-1;}
+  label{font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); display:block; margin-bottom:5px;}
+  input,select,textarea{
+    width:100%; background:var(--bg2); border:1px solid var(--line); color:var(--text);
+    border-radius:8px; padding:9px 10px; font-family:'Inter',sans-serif; font-size:13.5px;
+  }
+  input:focus,select:focus,textarea:focus{outline:none; border-color:var(--teal);}
+  textarea{resize:vertical; min-height:60px;}
+  .field{margin-bottom:12px;}
+  .hint{font-size:11px; color:var(--muted); margin-top:4px;}
+  .modal-footer{padding:16px 24px 24px; display:flex; justify-content:flex-end; gap:10px; border-top:1px solid var(--line);}
+
+  footer.note{max-width:1100px; margin:40px auto 0; padding:0 24px; color:var(--muted); font-size:12px; line-height:1.6;}
+  footer.note b{color:var(--text);}
+
+  @media (max-width:600px){
+    .form-grid{grid-template-columns:1fr;}
+    .rank-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="pass">
+    <div class="pass-eyebrow"><span class="dot"></span> QUEUE STATUS: LOOKING FOR RANKED 5S &mdash; NA</div>
+    <h1>SIGMA STACK</h1>
+    <p class="tagline">5 guys, 1 shared braincell, and a mutual understanding that this is "for fun" until someone starts int'ing. Tap a card to pull up the full scouting report.</p>
+    <div class="hero-actions">
+      <button class="btn primary" id="shareBtn">🔗 Share This Page</button>
+      <button class="btn ghost" id="copyBtn">Copy Link</button>
+      <span class="copied-flag mono" id="copiedFlag">copied to clipboard ✓</span>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><b id="statCount">5</b><span>Roster Size</span></div>
+      <div class="stat"><b id="statHighest">—</b><span>Highest Peak</span></div>
+      <div class="stat"><b>NA</b><span>Region</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="roster">
+  <div class="roster-head">
+    <div>
+      <h2>The Roster</h2>
+      <div class="sub">Click a card for champions, rank history &amp; improvement notes.</div>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer class="note">
+  <b>How this works:</b> stats below reflect each player's public OP.GG page at the time this was built. Anyone can add themselves via "Add Player" &mdash; new entries save to your own browser only, so if you want the whole squad to see a name added, send them the file directly or re-share after updating it. Ranked numbers change fast, so treat this as a snapshot, not gospel.
+</footer>
+
+<!-- PLAYER MODAL -->
+<div class="overlay" id="playerOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close" id="closePlayerModal">&times;</button>
+      <img class="icon" id="pmIcon" src="" alt="">
+      <div>
+        <h2 id="pmName">—</h2>
+        <div class="tagline-sm" id="pmTag">—</div>
+        <div class="modal-badges" id="pmBadges"></div>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="overview">Overview</button>
+      <button class="tab-btn" data-tab="champs">Champions</button>
+      <button class="tab-btn" data-tab="suggest">Suggestions</button>
+    </div>
+    <div class="tab-panels">
+      <div class="tab-panel active" id="panel-overview">
+        <div class="rank-grid">
+          <div class="rank-box">
+            <div class="rb-label">Ranked Solo/Duo</div>
+            <div class="rb-main"><img id="ovSoloImg" src="" alt=""><div><div class="rb-tier" id="ovSoloTier">—</div><div class="rb-lp" id="ovSoloLp">—</div></div></div>
+            <div class="peak-line" id="ovSoloPeak"></div>
+          </div>
+          <div class="rank-box">
+            <div class="rb-label">Ranked Flex</div>
+            <div class="rb-main"><img id="ovFlexImg" src="" alt=""><div><div class="rb-tier" id="ovFlexTier">—</div><div class="rb-lp" id="ovFlexLp">—</div></div></div>
+            <div class="peak-line" id="ovFlexPeak"></div>
+          </div>
+        </div>
+        <p id="ovBlurb" style="margin-top:16px; font-size:13.5px; line-height:1.6; color:var(--text);"></p>
+        <a class="opgg-link" id="ovOpggLink" href="#" target="_blank" rel="noopener">↗ View full OP.GG profile</a>
+      </div>
+      <div class="tab-panel" id="panel-champs">
+        <div class="champ-list" id="champList"></div>
+      </div>
+      <div class="tab-panel" id="panel-suggest">
+        <ul class="suggest-list" id="suggestList"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PLAYER MODAL -->
+<div class="overlay" id="addOverlay">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-head">
+      <button class="modal-close" id="closeAddModal">&times;</button>
+      <div>
+        <h2>Add Player</h2>
+        <div class="tagline-sm">Recruit a new sigma to the stack</div>
+      </div>
+    </div>
+    <div class="tab-panels" style="padding-top:22px;">
+      <div class="field full">
+        <label>Riot ID (name #tag)</label>
+        <input id="fName" placeholder="e.g. Bachie" >
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Tag</label>
+          <input id="fTag" placeholder="NA1">
+        </div>
+        <div class="field">
+          <label>Summoner Level</label>
+          <input id="fLevel" placeholder="e.g. 340" type="number">
+        </div>
+      </div>
+      <div class="field full">
+        <label>OP.GG Link</label>
+        <input id="fOpgg" placeholder="https://op.gg/lol/summoners/na/Name-TAG">
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Solo/Duo Rank</label>
+          <select id="fSoloTier">
+            <option value="unranked">Unranked</option>
+            <option value="bronze">Bronze</option>
+            <option value="silver">Silver</option>
+            <option value="gold">Gold</option>
+            <option value="platinum">Platinum</option>
+            <option value="emerald">Emerald</option>
+            <option value="diamond">Diamond</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Solo Division / LP</label>
+          <input id="fSoloLp" placeholder="e.g. 3 / 42 LP">
+        </div>
+      </div>
+      <div class="field full">
+        <label>Top Champions (comma-separated, e.g. Ahri, Yasuo, Lux)</label>
+        <input id="fChamps" placeholder="Ahri, Yasuo, Lux">
+      </div>
+      <div class="field full">
+        <label>Keyword Badges (comma-separated, brainrot encouraged)</label>
+        <input id="fBadges" placeholder="Menace, Certified Diff, Vibes Only">
+      </div>
+      <div class="field full">
+        <label>Suggestions to improve (one per line)</label>
+        <textarea id="fSuggest" placeholder="Work on wave management&#10;Ward more before objectives"></textarea>
+      </div>
+      <div class="hint">This is stored in your browser only (localStorage) — it won't automatically appear for friends unless you re-share the file.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn ghost" id="cancelAdd">Cancel</button>
+      <button class="btn gold" id="submitAdd">Add to Roster</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TIER_COLORS = {
+  bronze:'#8c5a34', silver:'#9fb0bd', gold:'#e0b23c', platinum:'#3ec9b0',
+  emerald:'#1fae74', diamond:'#5db8f5', unranked:'#565d69'
+};
+const TIER_IMG = t => `https://opgg-static.akamaized.net/images/medals_mini/${t}.png?image=q_auto:good,f_png,w_40`;
+const CHAMP_IMG = name => `https://opgg-static.akamaized.net/meta/images/lol/16.16.1/champion/${name.replace(/[' ]/g,'')}.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,f_png,w_160,h_160`;
+
+const DEFAULT_ROSTER = [
+  {
+    id:'bachie', name:'Bachie', tag:'NA1', level:1103,
+    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7178.jpg?image=q_auto:good,f_png,w_200',
+    opgg:'https://op.gg/lol/summoners/na/Bachie-NA1',
+    solo:{tier:'emerald', label:'Emerald 2', lp:'80 LP', peak:'Peaked Diamond 4 (S2024 S2) — OP.GG even flags this account as "D1 Peak" for the region'},
+    flex:{tier:'platinum', label:'Platinum 1', lp:'8 LP', peak:'Best flex season: Platinum 1'},
+    champs:[
+      {name:'Aphelios', pts:'423,896'},
+      {name:'Ezreal', pts:'331,403'},
+      {name:'Kaisa', pts:'331,371'},
+      {name:'Khazix', pts:'226,416'},
+    ],
+    badges:['Certified Dawg','Aphelios Sicko','Highest Rank In The Squad'],
+    blurb:'The account with the actual peak. ADC-brained with a Kha\u2019Zix hall pass for when he wants to be the reason the enemy jungler ghosts the group chat.',
+    suggestions:[
+      'Rank floor is way below the Diamond 4 peak \u2014 the mechanics are clearly there, so the gap is probably consistency and tilt-proofing across a long ranked grind, not raw skill.',
+      'Four-champ pool spans hypercarry (Aphelios) to lane bully (Ezreal) to skirmisher (Kha\u2019Zix) \u2014 picking one identity per game plan (scale vs. snowball) instead of mixing mid-game could tighten decision-making.',
+      'Flex sits a tier below Solo/Duo peak \u2014 worth treating flex games with the same focus as solo queue instead of "just vibing," since that\u2019s exactly the kind of game a 5-stack lives in.'
+    ]
+  },
+  {
+    id:'psycoticcone', name:'PsycoticCone', tag:'FROG', level:208,
+    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7185.jpg?image=q_auto:good,f_png,w_200',
+    opgg:'https://op.gg/lol/summoners/na/PsycoticCone-FROG',
+    solo:{tier:'unranked', label:'Unranked', lp:'this season', peak:'Peak: Bronze 2 (S2023 S1) \u2014 mostly Bronze across every ranked season on record'},
+    flex:{tier:'unranked', label:'Unranked', lp:'no flex history', peak:'No Ranked Flex games logged yet'},
+    champs:[
+      {name:'MissFortune', pts:'208,917'},
+      {name:'Leona', pts:'126,772'},
+      {name:'Sona', pts:'64,079'},
+      {name:'Mordekaiser', pts:'56,931'},
+    ],
+    badges:['Flex God (Literally Everything)','Vibes Only','Support Menace'],
+    blurb:'Plays ADC, Support, AND top-lane bruiser depending on the day. Mastery is spread thin across four totally different champ identities \u2014 the definition of "I just want to have fun."',
+    suggestions:[
+      'Mastery points are split almost evenly across an ADC, an engage support, a peel support, and a bruiser \u2014 picking one lane to "main" for a stretch of games would build the pattern recognition that a scattered pool doesn\u2019t.',
+      'No recent ranked history logged \u2014 getting placement games in would actually put a number on where this account sits today instead of relying on a Bronze 2 peak from years back.',
+      'Leona + Sona in the pool means engage timing matters a lot \u2014 practicing hooking/landing engage in ARAM or normals (lower stakes) before bringing it into a 5-stack game could raise the floor fast.'
+    ]
+  },
+  {
+    id:'tanner', name:'Tanner', tag:'Feed', level:588,
+    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7185.jpg?image=q_auto:good,f_png,w_200',
+    opgg:'https://op.gg/lol/summoners/na/Tanner-Feed',
+    solo:{tier:'emerald', label:'Emerald 3', lp:'84 LP', peak:'Peaked Platinum 2 (S2024 S3) before climbing to Emerald in S2025'},
+    flex:{tier:'platinum', label:'Platinum 3', lp:'9 LP', peak:'Currently Platinum 3 in Flex'},
+    champs:[
+      {name:'Vayne', pts:'828,239'},
+      {name:'Janna', pts:'558,287'},
+      {name:'Caitlyn', pts:'543,010'},
+      {name:'Sivir', pts:'470,285'},
+    ],
+    badges:['The Irony','Vayne Sweatlord','Actually Not Feeding'],
+    blurb:'The tag says #Feed. The rank says Emerald 3 with an 828K-point Vayne. This is either the most self-aware username in the game or a promise for later in the night.',
+    suggestions:[
+      'Vayne is one of the weakest early-game ADCs in the game and one of the strongest late \u2014 with 828K points on her, the actual lever to pull is surviving lane (dodging all-ins, not force-trading) so she lives to scale, since that\u2019s usually where a "Feed" reputation on a Vayne main comes from.',
+      'Deep mastery on both Vayne (hyper-scaler) and Caitlyn (lane bully) is a useful duality \u2014 picking based on the enemy bot lane matchup rather than comfort could turn close lanes into clean ones.',
+      'Janna mastery this high suggests real support reps too \u2014 if support ever fills for the 5-stack, that\u2019s a legitimate second role, not just an off-role fallback.'
+    ]
+  },
+  {
+    id:'sunshadowray', name:'SunShadowRay', tag:'86753', level:196,
+    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7101.jpg?image=q_auto:good,f_png,w_200',
+    opgg:'https://op.gg/lol/summoners/na/SunShadowRay-86753',
+    solo:{tier:'unranked', label:'Unranked', lp:'this season', peak:'Peak: Gold 1 (S2023 S1)'},
+    flex:{tier:'silver', label:'Silver 2', lp:'1 LP', peak:'Best Flex finish: Silver 2'},
+    champs:[
+      {name:'Xerath', pts:'259,627'},
+      {name:'Velkoz', pts:'115,272'},
+      {name:'Vex', pts:'96,488'},
+      {name:'Veigar', pts:'60,939'},
+    ],
+    badges:['Poke Goblin','Ratting From The Treeline','Range Advantage Enjoyer'],
+    blurb:'Four mages, zero melee range. If the fight is happening more than 800 units away, SunShadowRay is winning it. If it closes the distance, that\u2019s a different story.',
+    suggestions:[
+      'Full poke-mage pool (Xerath, Vel\u2019Koz, Vex, Veigar) is strong at range but historically vulnerable to dive comps \u2014 practicing flash/peel timing for when junglers commit early would raise the floor a lot.',
+      'No current ranked games logged \u2014 the Gold 1 peak is from a couple seasons back, so a placement run would give a real read on where this account stands now.',
+      'Poke mages win by managing wave state and roaming on cooldown \u2014 tracking enemy jungler position before pushing a wave solo would cut down on getting caught out.'
+    ]
+  },
+  {
+    id:'gerudoking', name:'Gerudo King', tag:'NA1', level:727,
+    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon977.jpg?image=q_auto:good,f_png,w_200',
+    opgg:'https://op.gg/lol/summoners/na/Gerudo%20King-NA1',
+    solo:{tier:'bronze', label:'Bronze 1', lp:'11 LP', peak:'Peaked Silver 1 (S2023 S1)'},
+    flex:{tier:'bronze', label:'Bronze 1', lp:'28 LP', peak:'Best Flex finish: Silver 4'},
+    champs:[
+      {name:'Blitzcrank', pts:'533,629'},
+      {name:'Thresh', pts:'423,741'},
+      {name:'LeeSin', pts:'388,593'},
+      {name:'Ekko', pts:'305,248'},
+    ],
+    badges:['Hook Connoisseur','Menace With Grabs','Grab Or Nothing'],
+    blurb:'Over half a million points on Blitzcrank alone. Every game is a coin flip between "perfect hook, ace the enemy team" and "grabbed a minion, apologize in all chat."',
+    suggestions:[
+      'Nearly a million combined points on Blitzcrank + Thresh \u2014 the read is clear: this is a hook-or-nothing playstyle. Custom practice-tool reps on hook accuracy (moving dummy bots) would directly raise win rate, since these champs live and die by that one skillshot.',
+      'Lee Sin + Ekko in the pool means jungle is a real second role \u2014 both live on early skirmishing, so tracking enemy jungler pathing before invading would cut down on early deaths.',
+      'Rank has hovered Bronze/Silver across multiple seasons \u2014 vision control around hook range (so the hook isn\u2019t thrown blind into a bush) is usually the fastest lever for engage-support mains stuck at this stage.'
+    ]
+  },
+];
+
+let roster = [];
+let customIds = new Set();
+
+function loadRoster(){
+  const saved = localStorage.getItem('sigmaStackRoster');
+  const savedCustom = localStorage.getItem('sigmaStackCustomIds');
+  roster = [...DEFAULT_ROSTER];
+  if(saved){
+    try{
+      const parsed = JSON.parse(saved);
+      roster = roster.concat(parsed);
+    }catch(e){}
+  }
+  if(savedCustom){
+    try{ customIds = new Set(JSON.parse(savedCustom)); }catch(e){}
+  }
+}
+function persistCustom(){
+  const customPlayers = roster.filter(p => customIds.has(p.id));
+  localStorage.setItem('sigmaStackRoster', JSON.stringify(customPlayers));
+  localStorage.setItem('sigmaStackCustomIds', JSON.stringify([...customIds]));
+}
+
+const TIER_ORDER = ['unranked','bronze','silver','gold','platinum','emerald','diamond'];
+
+function highestPeakLabel(){
+  let best = 'Bronze';
+  let bestIdx = -1;
+  roster.forEach(p=>{
+    [p.solo, p.flex].forEach(r=>{
+      if(!r) return;
+      const idx = TIER_ORDER.indexOf(r.tier);
+      if(idx > bestIdx){ bestIdx = idx; best = r.tier; }
+    });
+  });
+  return best.charAt(0).toUpperCase()+best.slice(1);
+}
+
+function renderGrid(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  roster.forEach(p=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.id = p.id;
+    const spineColor = TIER_COLORS[p.solo.tier] || TIER_COLORS.unranked;
+    card.innerHTML = `
+      <div class="spine" style="background:${spineColor}"></div>
+      ${customIds.has(p.id) ? `<div class="remove-x" data-remove="${p.id}">&times;</div>` : ''}
+      <div class="card-top">
+        <img class="icon" src="${p.icon}" alt="${p.name}">
+        <div class="card-name">
+          <div class="full">${p.name}</div>
+          <div class="tag">#${p.tag}</div>
+          <div class="lvl">Level ${p.level}</div>
+        </div>
+      </div>
+      <div class="badges">
+        ${p.badges.slice(0,2).map(b=>`<span class="badge">${b}</span>`).join('')}
+      </div>
+      <div class="rank-row">
+        <div class="rank-chip"><img src="${TIER_IMG(p.solo.tier)}"><div><span class="rlabel">Solo</span><span class="rval">${p.solo.label}</span></div></div>
+        <div class="rank-chip"><img src="${TIER_IMG(p.flex.tier)}"><div><span class="rlabel">Flex</span><span class="rval">${p.flex.label}</span></div></div>
+      </div>
+    `;
+    card.addEventListener('click', (e)=>{
+      if(e.target.closest('.remove-x')) return;
+      openPlayerModal(p.id);
+    });
+    grid.appendChild(card);
+  });
+
+  const addCard = document.createElement('div');
+  addCard.className = 'card add-card';
+  addCard.innerHTML = `<div class="plus">+</div><div>Add Player</div>`;
+  addCard.addEventListener('click', ()=> document.getElementById('addOverlay').classList.add('open'));
+  grid.appendChild(addCard);
+
+  grid.querySelectorAll('[data-remove]').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const id = btn.dataset.remove;
+      roster = roster.filter(p=>p.id!==id);
+      customIds.delete(id);
+      persistCustom();
+      renderGrid();
+      updateStats();
+    });
+  });
+
+  updateStats();
+}
+
+function updateStats(){
+  document.getElementById('statCount').textContent = roster.length;
+  document.getElementById('statHighest').textContent = highestPeakLabel();
+}
+
+function openPlayerModal(id){
+  const p = roster.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('pmIcon').src = p.icon;
+  document.getElementById('pmName').textContent = p.name;
+  document.getElementById('pmTag').textContent = '#'+p.tag+' \u00b7 Level '+p.level+' \u00b7 NA';
+  document.getElementById('pmBadges').innerHTML = p.badges.map(b=>`<span class="badge">${b}</span>`).join('');
+
+  document.getElementById('ovSoloImg').src = TIER_IMG(p.solo.tier);
+  document.getElementById('ovSoloTier').textContent = p.solo.label;
+  document.getElementById('ovSoloLp').textContent = p.solo.lp;
+  document.getElementById('ovSoloPeak').textContent = p.solo.peak || '';
+
+  document.getElementById('ovFlexImg').src = TIER_IMG(p.flex.tier);
+  document.getElementById('ovFlexTier').textContent = p.flex.label;
+  document.getElementById('ovFlexLp').textContent = p.flex.lp;
+  document.getElementById('ovFlexPeak').textContent = p.flex.peak || '';
+
+  document.getElementById('ovBlurb').textContent = p.blurb || '';
+  document.getElementById('ovOpggLink').href = p.opgg;
+
+  document.getElementById('champList').innerHTML = p.champs.map(c=>`
+    <div class="champ-row">
+      <img src="${CHAMP_IMG(c.name)}" alt="${c.name}" onerror="this.style.display='none'">
+      <div class="cname">${c.name.replace(/([A-Z])/g,' $1').trim()}</div>
+      <div class="cpts">${c.pts} pts</div>
+    </div>
+  `).join('');
+
+  document.getElementById('suggestList').innerHTML = p.suggestions.map(s=>`<li>${s}</li>`).join('');
+
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.tab-btn[data-tab="overview"]').classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-overview').classList.add('active');
+
+  document.getElementById('playerOverlay').classList.add('open');
+}
+
+document.getElementById('closePlayerModal').addEventListener('click', ()=>{
+  document.getElementById('playerOverlay').classList.remove('open');
+});
+document.getElementById('playerOverlay').addEventListener('click', (e)=>{
+  if(e.target.id==='playerOverlay') e.currentTarget.classList.remove('open');
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ADD PLAYER MODAL
+document.getElementById('closeAddModal').addEventListener('click', ()=>document.getElementById('addOverlay').classList.remove('open'));
+document.getElementById('cancelAdd').addEventListener('click', ()=>document.getElementById('addOverlay').classList.remove('open'));
+document.getElementById('addOverlay').addEventListener('click', (e)=>{
+  if(e.target.id==='addOverlay') e.currentTarget.classList.remove('open');
+});
+
+document.getElementById('submitAdd').addEventListener('click', ()=>{
+  const name = document.getElementById('fName').value.trim();
+  if(!name){ alert('Give them a name first.'); return; }
+  const tag = document.getElementById('fTag').value.trim() || 'NA1';
+  const level = document.getElementById('fLevel').value || '???';
+  const opgg = document.getElementById('fOpgg').value.trim() || '#';
+  const soloTier = document.getElementById('fSoloTier').value;
+  const soloLp = document.getElementById('fSoloLp').value.trim() || '\u2014';
+  const champsRaw = document.getElementById('fChamps').value.trim();
+  const badgesRaw = document.getElementById('fBadges').value.trim();
+  const suggestRaw = document.getElementById('fSuggest').value.trim();
+
+  const id = 'custom-'+name.toLowerCase().replace(/[^a-z0-9]/g,'')+'-'+Date.now();
+  const champs = champsRaw ? champsRaw.split(',').map(c=>({name:c.trim(), pts:'\u2014'})) : [{name:'Unknown', pts:'\u2014'}];
+  const badges = badgesRaw ? badgesRaw.split(',').map(b=>b.trim()).filter(Boolean) : ['New Recruit'];
+  const suggestions = suggestRaw ? suggestRaw.split('\n').map(s=>s.trim()).filter(Boolean) : ['No notes yet \u2014 add some after their first ranked game with the squad.'];
+
+  const newPlayer = {
+    id, name, tag, level,
+    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon29.jpg?image=q_auto:good,f_png,w_200',
+    opgg,
+    solo:{tier:soloTier, label: soloTier==='unranked' ? 'Unranked' : soloTier.charAt(0).toUpperCase()+soloTier.slice(1), lp:soloLp, peak:''},
+    flex:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:''},
+    champs, badges, blurb:'Freshly added to the stack. Scouting report pending.', suggestions
+  };
+
+  roster.push(newPlayer);
+  customIds.add(id);
+  persistCustom();
+  renderGrid();
+  document.getElementById('addOverlay').classList.remove('open');
+  ['fName','fTag','fLevel','fOpgg','fSoloLp','fChamps','fBadges','fSuggest'].forEach(fid=>document.getElementById(fid).value='');
+});
+
+// SHARE / COPY
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  navigator.clipboard.writeText(window.location.href).then(()=>{
+    const flag = document.getElementById('copiedFlag');
+    flag.classList.add('show');
+    setTimeout(()=>flag.classList.remove('show'), 1800);
+  }).catch(()=>{
+    prompt('Copy this link:', window.location.href);
+  });
+});
+document.getElementById('shareBtn').addEventListener('click', ()=>{
+  if(navigator.share){
+    navigator.share({title:'SIGMA STACK — Ranked 5s Roster', url:window.location.href}).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(window.location.href).then(()=>{
+      const flag = document.getElementById('copiedFlag');
+      flag.classList.add('show');
+      setTimeout(()=>flag.classList.remove('show'), 1800);
+    }).catch(()=>{
+      prompt('Copy this link:', window.location.href);
+    });
+  }
+});
+
+loadRoster();
+renderGrid();
+</script>
+</body>
+</html>
