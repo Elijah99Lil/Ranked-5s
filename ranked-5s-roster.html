@@ -42,6 +42,24 @@
   .mono{font-family:'JetBrains Mono',monospace;}
   a{color:var(--teal);}
 
+  /* ===== SYNC BANNER ===== */
+  .sync-banner{
+    max-width:1100px; margin:0 auto; padding:14px 24px; display:none;
+  }
+  .sync-banner.show{display:block;}
+  .sync-banner .box{
+    border:1px solid var(--gold); background:rgba(200,170,110,0.08); border-radius:10px;
+    padding:14px 18px; font-size:13px; line-height:1.6;
+  }
+  .sync-banner code{background:var(--bg2); padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono',monospace; color:var(--teal);}
+  .sync-status{
+    max-width:1100px; margin:0 auto; padding:0 24px; display:flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); margin-top:8px;
+  }
+  .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);}
+  .sync-dot.live{background:var(--teal); box-shadow:0 0 6px var(--teal);}
+  .sync-dot.local{background:var(--gold);}
+
   /* ===== HERO / LAN PASS HEADER ===== */
   .hero{
     max-width:1100px;margin:0 auto;padding:40px 24px 24px;
@@ -91,8 +109,11 @@
   .btn.primary:hover{background:#0ee0cf; color:#03211f;}
   .btn.gold{background:var(--gold); color:#2a2109; border-color:var(--gold);}
   .btn.gold:hover{background:#ddc186;}
+  .btn.danger-outline{border-color:var(--danger); color:var(--danger);}
+  .btn.danger-outline:hover{background:var(--danger); color:#fff;}
   .btn.small{padding:6px 12px; font-size:12px;}
   .btn.ghost{background:transparent;}
+  .btn:disabled{opacity:0.5; cursor:not-allowed; transform:none;}
   .copied-flag{font-size:12px; color:var(--teal); font-family:'JetBrains Mono',monospace; opacity:0; transition:opacity .2s;}
   .copied-flag.show{opacity:1;}
 
@@ -129,6 +150,8 @@
   .card-name .full{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:17px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   .card-name .tag{color:var(--muted); font-size:12px; font-family:'JetBrains Mono',monospace;}
   .card-name .lvl{font-size:11px; color:var(--muted); margin-top:2px;}
+  .role-line{padding:0 20px 8px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--gold);}
+  .role-line span.sec{color:var(--muted);}
   .badges{display:flex; flex-wrap:wrap; gap:6px; padding:0 20px 12px;}
   .badge{
     font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.03em;
@@ -158,6 +181,24 @@
   .add-card:hover{border-color:var(--teal); color:var(--teal);}
   .add-card .plus{font-size:30px; font-family:'Rajdhani',sans-serif;}
 
+  /* ===== CAPTAIN TOOLS ===== */
+  .captain{max-width:1100px; margin:44px auto 0; padding:0 24px;}
+  .captain h2{font-size:22px; margin:0 0 4px;}
+  .captain .sub{color:var(--muted); font-size:13px; margin-bottom:16px;}
+  .tool-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px;}
+  .tool-card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px;}
+  .tool-card h3{font-size:16px; margin:0 0 6px; color:var(--gold);}
+  .tool-card p{font-size:12.5px; color:var(--muted); margin:0 0 14px; line-height:1.5;}
+  .tool-output{
+    margin-top:14px; background:var(--panel2); border:1px solid var(--line); border-radius:8px;
+    padding:12px; font-family:'JetBrains Mono',monospace; font-size:12.5px; min-height:20px; display:none;
+  }
+  .tool-output.show{display:block;}
+  .lineup-row{display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid var(--line);}
+  .lineup-row:last-child{border-bottom:none;}
+  .lineup-row .role{color:var(--teal); text-transform:uppercase; font-size:10.5px;}
+  .lineup-row .who{color:var(--text);}
+
   /* ===== MODAL ===== */
   .overlay{
     position:fixed; inset:0; background:rgba(4,6,9,0.78); backdrop-filter:blur(3px);
@@ -181,11 +222,11 @@
   .modal-close:hover{color:var(--text);}
   .modal-badges{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;}
 
-  .tabs{display:flex; border-bottom:1px solid var(--line); padding:0 24px;}
+  .tabs{display:flex; border-bottom:1px solid var(--line); padding:0 24px; overflow-x:auto;}
   .tab-btn{
     background:none; border:none; color:var(--muted); font-family:'Rajdhani',sans-serif; font-weight:700;
-    text-transform:uppercase; font-size:13px; letter-spacing:0.05em; padding:14px 4px; margin-right:24px;
-    cursor:pointer; border-bottom:2px solid transparent;
+    text-transform:uppercase; font-size:13px; letter-spacing:0.05em; padding:14px 4px; margin-right:22px;
+    cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap;
   }
   .tab-btn.active{color:var(--teal); border-color:var(--teal);}
   .tab-panels{padding:22px 24px 26px; min-height:180px;}
@@ -202,11 +243,28 @@
   .rank-box .rb-lp{color:var(--muted); font-size:12px; font-family:'JetBrains Mono',monospace;}
   .peak-line{margin-top:8px; font-size:11px; color:var(--muted);}
 
+  .role-box{background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:14px; margin-top:12px;}
+  .role-box .rb-label{font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:8px;}
+  .role-pills{display:flex; gap:8px; flex-wrap:wrap;}
+  .role-pill{font-family:'JetBrains Mono',monospace; font-size:12px; padding:5px 10px; border-radius:6px; border:1px solid var(--line);}
+  .role-pill.primary{background:var(--teal); color:#03211f; border-color:var(--teal); font-weight:700;}
+  .role-pill.secondary{background:var(--bg2); color:var(--muted);}
+  .flex-note{margin-top:8px; font-size:12px; color:var(--muted); font-style:italic;}
+
   .champ-list{display:flex; flex-direction:column; gap:8px;}
   .champ-row{display:flex; align-items:center; gap:12px; background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:8px 12px;}
   .champ-row img{width:38px; height:38px; border-radius:8px;}
   .champ-row .cname{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:15px;}
   .champ-row .cpts{margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted);}
+
+  .ban-note{font-size:13px; color:var(--muted); margin-bottom:14px; line-height:1.6;}
+  .ban-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .ban-chip{
+    display:flex; align-items:center; gap:8px; background:rgba(225,91,91,0.08); border:1px solid var(--danger);
+    color:var(--text); border-radius:8px; padding:6px 10px 6px 6px;
+  }
+  .ban-chip img{width:28px; height:28px; border-radius:6px;}
+  .ban-chip .bname{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px;}
 
   .suggest-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
   .suggest-list li{
@@ -227,7 +285,7 @@
   textarea{resize:vertical; min-height:60px;}
   .field{margin-bottom:12px;}
   .hint{font-size:11px; color:var(--muted); margin-top:4px;}
-  .modal-footer{padding:16px 24px 24px; display:flex; justify-content:flex-end; gap:10px; border-top:1px solid var(--line);}
+  .modal-footer{padding:16px 24px 24px; display:flex; justify-content:flex-end; gap:10px; border-top:1px solid var(--line); flex-wrap:wrap;}
 
   footer.note{max-width:1100px; margin:40px auto 0; padding:0 24px; color:var(--muted); font-size:12px; line-height:1.6;}
   footer.note b{color:var(--text);}
@@ -240,6 +298,13 @@
 </head>
 <body>
 
+<div class="sync-banner" id="syncBanner">
+  <div class="box">
+    <b>One-time setup needed for shared syncing.</b> Right now roster adds only save to your own browser. Click <code>Create Shared Board</code> below, then copy the ID it gives you into the <code>SHARED_BLOB_ID</code> line near the top of the script in this file, and re-upload to GitHub. Do this once and everyone who opens the page will see the same live roster.
+    <div style="margin-top:10px;"><button class="btn gold small" id="createBoardBtn">Create Shared Board</button></div>
+  </div>
+</div>
+
 <div class="hero">
   <div class="pass">
     <div class="pass-eyebrow"><span class="dot"></span> QUEUE STATUS: LOOKING FOR RANKED 5S &mdash; NA</div>
@@ -248,6 +313,7 @@
     <div class="hero-actions">
       <button class="btn primary" id="shareBtn">🔗 Share This Page</button>
       <button class="btn ghost" id="copyBtn">Copy Link</button>
+      <button class="btn ghost" id="refreshBtn">↻ Refresh Roster</button>
       <span class="copied-flag mono" id="copiedFlag">copied to clipboard ✓</span>
     </div>
     <div class="stat-row">
@@ -255,6 +321,7 @@
       <div class="stat"><b id="statHighest">—</b><span>Highest Peak</span></div>
       <div class="stat"><b>NA</b><span>Region</span></div>
     </div>
+    <div class="sync-status"><span class="sync-dot" id="syncDot"></span><span id="syncLabel">Checking sync status…</span></div>
   </div>
 </div>
 
@@ -262,14 +329,39 @@
   <div class="roster-head">
     <div>
       <h2>The Roster</h2>
-      <div class="sub">Click a card for champions, rank history &amp; improvement notes.</div>
+      <div class="sub">Click a card for roles, champions, ban targets &amp; improvement notes.</div>
     </div>
   </div>
   <div class="grid" id="grid"></div>
 </div>
 
+<div class="captain">
+  <h2>Captain Tools</h2>
+  <div class="sub">Quick utilities for champ select night. Nothing here is saved &mdash; just click and go.</div>
+  <div class="tool-grid">
+    <div class="tool-card">
+      <h3>Auto-Assign Roles</h3>
+      <p>Slots the current roster into Top / Jungle / Mid / ADC / Support based on everyone's preferred roles.</p>
+      <button class="btn small primary" id="lineupBtn">Build Lineup</button>
+      <div class="tool-output" id="lineupOutput"></div>
+    </div>
+    <div class="tool-card">
+      <h3>Who Picks First?</h3>
+      <p>Random coin flip to decide who gets first pick or first ban priority tonight.</p>
+      <button class="btn small primary" id="coinBtn">Flip It</button>
+      <div class="tool-output" id="coinOutput"></div>
+    </div>
+    <div class="tool-card">
+      <h3>Ban Roulette</h3>
+      <p>Pulls a random pick from the squad's combined "watch out for this" ban list, just for laughs.</p>
+      <button class="btn small primary" id="banRouletteBtn">Roll It</button>
+      <div class="tool-output" id="banRouletteOutput"></div>
+    </div>
+  </div>
+</div>
+
 <footer class="note">
-  <b>How this works:</b> stats below reflect each player's public OP.GG page at the time this was built. Anyone can add themselves via "Add Player" &mdash; new entries save to your own browser only, so if you want the whole squad to see a name added, send them the file directly or re-share after updating it. Ranked numbers change fast, so treat this as a snapshot, not gospel.
+  <b>How this works:</b> ranked numbers reflect each player's public OP.GG page at the time this was built &mdash; treat it as a snapshot, not gospel. Role preferences and ban lists are informed guesses based on champion pools, not official scouting reports. If shared syncing is set up (see the banner above if it's showing), new players added via "Add Player" become visible to everyone who opens this page.
 </footer>
 
 <!-- PLAYER MODAL -->
@@ -287,11 +379,20 @@
     <div class="tabs">
       <button class="tab-btn active" data-tab="overview">Overview</button>
       <button class="tab-btn" data-tab="champs">Champions</button>
+      <button class="tab-btn" data-tab="bans">Ban List</button>
       <button class="tab-btn" data-tab="suggest">Suggestions</button>
     </div>
     <div class="tab-panels">
       <div class="tab-panel active" id="panel-overview">
-        <div class="rank-grid">
+        <div class="role-box">
+          <div class="rb-label">Preferred Roles</div>
+          <div class="role-pills">
+            <span class="role-pill primary" id="ovRolePrimary">—</span>
+            <span class="role-pill secondary" id="ovRoleSecondary">—</span>
+          </div>
+          <div class="flex-note" id="ovFlexNote"></div>
+        </div>
+        <div class="rank-grid" style="margin-top:12px;">
           <div class="rank-box">
             <div class="rb-label">Ranked Solo/Duo</div>
             <div class="rb-main"><img id="ovSoloImg" src="" alt=""><div><div class="rb-tier" id="ovSoloTier">—</div><div class="rb-lp" id="ovSoloLp">—</div></div></div>
@@ -308,6 +409,10 @@
       </div>
       <div class="tab-panel" id="panel-champs">
         <div class="champ-list" id="champList"></div>
+      </div>
+      <div class="tab-panel" id="panel-bans">
+        <div class="ban-note" id="banNote"></div>
+        <div class="ban-list" id="banList"></div>
       </div>
       <div class="tab-panel" id="panel-suggest">
         <ul class="suggest-list" id="suggestList"></ul>
@@ -363,9 +468,27 @@
           <input id="fSoloLp" placeholder="e.g. 3 / 42 LP">
         </div>
       </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Preferred Role (Primary)</label>
+          <select id="fRolePrimary">
+            <option>Top</option><option>Jungle</option><option>Mid</option><option>ADC</option><option>Support</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Preferred Role (Secondary)</label>
+          <select id="fRoleSecondary">
+            <option>Jungle</option><option>Top</option><option>Mid</option><option>ADC</option><option>Support</option>
+          </select>
+        </div>
+      </div>
       <div class="field full">
         <label>Top Champions (comma-separated, e.g. Ahri, Yasuo, Lux)</label>
         <input id="fChamps" placeholder="Ahri, Yasuo, Lux">
+      </div>
+      <div class="field full">
+        <label>Champs To Ban Against Them (comma-separated)</label>
+        <input id="fBans" placeholder="Zed, Yasuo, Katarina">
       </div>
       <div class="field full">
         <label>Keyword Badges (comma-separated, brainrot encouraged)</label>
@@ -375,7 +498,7 @@
         <label>Suggestions to improve (one per line)</label>
         <textarea id="fSuggest" placeholder="Work on wave management&#10;Ward more before objectives"></textarea>
       </div>
-      <div class="hint">This is stored in your browser only (localStorage) — it won't automatically appear for friends unless you re-share the file.</div>
+      <div class="hint" id="addHint">This saves locally in your browser only.</div>
     </div>
     <div class="modal-footer">
       <button class="btn ghost" id="cancelAdd">Cancel</button>
@@ -385,18 +508,30 @@
 </div>
 
 <script>
+/* ============================================================
+   SHARED SYNC CONFIG
+   Leave this blank the first time you deploy. Click "Create
+   Shared Board" on the live page, then paste the ID it gives
+   you below, save this file, and re-upload to GitHub so the
+   SAME id ships to everyone who opens the page.
+   ============================================================ */
+const SHARED_BLOB_ID = '';
+const BLOB_API = 'https://jsonblob.com/api/jsonBlob';
+
 const TIER_COLORS = {
   bronze:'#8c5a34', silver:'#9fb0bd', gold:'#e0b23c', platinum:'#3ec9b0',
   emerald:'#1fae74', diamond:'#5db8f5', unranked:'#565d69'
 };
 const TIER_IMG = t => `https://opgg-static.akamaized.net/images/medals_mini/${t}.png?image=q_auto:good,f_png,w_40`;
 const CHAMP_IMG = name => `https://opgg-static.akamaized.net/meta/images/lol/16.16.1/champion/${name.replace(/[' ]/g,'')}.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,f_png,w_160,h_160`;
+const ROLE_ORDER = ['Top','Jungle','Mid','ADC','Support'];
 
 const DEFAULT_ROSTER = [
   {
     id:'bachie', name:'Bachie', tag:'NA1', level:1103,
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7178.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Bachie-NA1',
+    roles:{primary:'ADC', secondary:'Jungle', flexNote:'Comfort-picks Kha\u2019Zix when the team needs a duelist instead of a fourth ranged carry.'},
     solo:{tier:'emerald', label:'Emerald 2', lp:'80 LP', peak:'Peaked Diamond 4 (S2024 S2) — OP.GG even flags this account as "D1 Peak" for the region'},
     flex:{tier:'platinum', label:'Platinum 1', lp:'8 LP', peak:'Best flex season: Platinum 1'},
     champs:[
@@ -405,6 +540,8 @@ const DEFAULT_ROSTER = [
       {name:'Kaisa', pts:'331,371'},
       {name:'Khazix', pts:'226,416'},
     ],
+    banNote:'Aggressive early lane bullies and hyper-mobile duelists give the ADC/Kha\u2019Zix pool the most trouble \u2014 immobile hypercarries like Aphelios get run down before they scale.',
+    bans:['Draven','Samira','Zeri','Rengar'],
     badges:['Certified Dawg','Aphelios Sicko','Highest Rank In The Squad'],
     blurb:'The account with the actual peak. ADC-brained with a Kha\u2019Zix hall pass for when he wants to be the reason the enemy jungler ghosts the group chat.',
     suggestions:[
@@ -417,6 +554,7 @@ const DEFAULT_ROSTER = [
     id:'psycoticcone', name:'PsycoticCone', tag:'FROG', level:208,
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7185.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/PsycoticCone-FROG',
+    roles:{primary:'Support', secondary:'ADC', flexNote:'Has logged real games top lane too \u2014 genuinely a fill-anything option in a pinch.'},
     solo:{tier:'unranked', label:'Unranked', lp:'this season', peak:'Peak: Bronze 2 (S2023 S1) \u2014 mostly Bronze across every ranked season on record'},
     flex:{tier:'unranked', label:'Unranked', lp:'no flex history', peak:'No Ranked Flex games logged yet'},
     champs:[
@@ -425,6 +563,8 @@ const DEFAULT_ROSTER = [
       {name:'Sona', pts:'64,079'},
       {name:'Mordekaiser', pts:'56,931'},
     ],
+    banNote:'Champs that punish engage \u2014 shields, sustain, or dive before the hook even lands \u2014 turn Leona/Sona\u2019s whole game plan off.',
+    bans:['Morgana','Pyke','Draven'],
     badges:['Flex God (Literally Everything)','Vibes Only','Support Menace'],
     blurb:'Plays ADC, Support, AND top-lane bruiser depending on the day. Mastery is spread thin across four totally different champ identities \u2014 the definition of "I just want to have fun."',
     suggestions:[
@@ -437,6 +577,7 @@ const DEFAULT_ROSTER = [
     id:'tanner', name:'Tanner', tag:'Feed', level:588,
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7185.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Tanner-Feed',
+    roles:{primary:'ADC', secondary:'Support', flexNote:'The Janna mastery is real \u2014 legit second role, not just an off-role fallback.'},
     solo:{tier:'emerald', label:'Emerald 3', lp:'84 LP', peak:'Peaked Platinum 2 (S2024 S3) before climbing to Emerald in S2025'},
     flex:{tier:'platinum', label:'Platinum 3', lp:'9 LP', peak:'Currently Platinum 3 in Flex'},
     champs:[
@@ -445,6 +586,8 @@ const DEFAULT_ROSTER = [
       {name:'Caitlyn', pts:'543,010'},
       {name:'Sivir', pts:'470,285'},
     ],
+    banNote:'Early lane bullies and hyper-mobile ADCs beat Vayne/Caitlyn before the late-game payoff ever arrives.',
+    bans:['Draven','Renata Glasc','Zeri'],
     badges:['The Irony','Vayne Sweatlord','Actually Not Feeding'],
     blurb:'The tag says #Feed. The rank says Emerald 3 with an 828K-point Vayne. This is either the most self-aware username in the game or a promise for later in the night.',
     suggestions:[
@@ -457,6 +600,7 @@ const DEFAULT_ROSTER = [
     id:'sunshadowray', name:'SunShadowRay', tag:'86753', level:196,
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7101.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/SunShadowRay-86753',
+    roles:{primary:'Mid', secondary:'Support', flexNote:'Xerath and Vel\u2019Koz both flex to support if the comp needs poke from bot instead.'},
     solo:{tier:'unranked', label:'Unranked', lp:'this season', peak:'Peak: Gold 1 (S2023 S1)'},
     flex:{tier:'silver', label:'Silver 2', lp:'1 LP', peak:'Best Flex finish: Silver 2'},
     champs:[
@@ -465,6 +609,8 @@ const DEFAULT_ROSTER = [
       {name:'Vex', pts:'96,488'},
       {name:'Veigar', pts:'60,939'},
     ],
+    banNote:'Dive-heavy assassins close the gap on poke mages before Xerath/Vel\u2019Koz/Veigar ever get a spell off.',
+    bans:['Zed','Yasuo','Katarina'],
     badges:['Poke Goblin','Ratting From The Treeline','Range Advantage Enjoyer'],
     blurb:'Four mages, zero melee range. If the fight is happening more than 800 units away, SunShadowRay is winning it. If it closes the distance, that\u2019s a different story.',
     suggestions:[
@@ -477,6 +623,7 @@ const DEFAULT_ROSTER = [
     id:'gerudoking', name:'Gerudo King', tag:'NA1', level:727,
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon977.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Gerudo%20King-NA1',
+    roles:{primary:'Support', secondary:'Jungle', flexNote:'Lee Sin and Ekko make jungle a legitimate second role, not just an emergency fill.'},
     solo:{tier:'bronze', label:'Bronze 1', lp:'11 LP', peak:'Peaked Silver 1 (S2023 S1)'},
     flex:{tier:'bronze', label:'Bronze 1', lp:'28 LP', peak:'Best Flex finish: Silver 4'},
     champs:[
@@ -485,6 +632,8 @@ const DEFAULT_ROSTER = [
       {name:'LeeSin', pts:'388,593'},
       {name:'Ekko', pts:'305,248'},
     ],
+    banNote:'Anything that shields, blinks, or tanks straight through a hook removes Blitz/Thresh\u2019s entire win condition.',
+    bans:['Morgana','Renata Glasc','Poppy'],
     badges:['Hook Connoisseur','Menace With Grabs','Grab Or Nothing'],
     blurb:'Over half a million points on Blitzcrank alone. Every game is a coin flip between "perfect hook, ace the enemy team" and "grabbed a minion, apologize in all chat."',
     suggestions:[
@@ -497,26 +646,94 @@ const DEFAULT_ROSTER = [
 
 let roster = [];
 let customIds = new Set();
+let syncMode = 'local'; // 'live' or 'local'
 
-function loadRoster(){
-  const saved = localStorage.getItem('sigmaStackRoster');
-  const savedCustom = localStorage.getItem('sigmaStackCustomIds');
+function normalizeCustomList(list){
+  return Array.isArray(list) ? list : [];
+}
+
+async function loadRoster(){
   roster = [...DEFAULT_ROSTER];
+  if(SHARED_BLOB_ID){
+    try{
+      const res = await fetch(`${BLOB_API}/${SHARED_BLOB_ID}`, {headers:{'Accept':'application/json'}});
+      if(!res.ok) throw new Error('bad status');
+      const data = await res.json();
+      roster = roster.concat(normalizeCustomList(data));
+      customIds = new Set(normalizeCustomList(data).map(p=>p.id));
+      syncMode = 'live';
+      document.getElementById('syncBanner').classList.remove('show');
+    }catch(e){
+      syncMode = 'local-fallback';
+      fallbackToLocal();
+    }
+  } else {
+    syncMode = 'local';
+    document.getElementById('syncBanner').classList.add('show');
+    fallbackToLocal();
+  }
+  updateSyncStatus();
+}
+
+function fallbackToLocal(){
+  const saved = localStorage.getItem('sigmaStackRoster');
   if(saved){
     try{
       const parsed = JSON.parse(saved);
       roster = roster.concat(parsed);
+      customIds = new Set(parsed.map(p=>p.id));
     }catch(e){}
   }
-  if(savedCustom){
-    try{ customIds = new Set(JSON.parse(savedCustom)); }catch(e){}
+}
+
+async function persistCustom(){
+  const customPlayers = roster.filter(p => customIds.has(p.id));
+  if(SHARED_BLOB_ID && syncMode==='live'){
+    try{
+      await fetch(`${BLOB_API}/${SHARED_BLOB_ID}`, {
+        method:'PUT',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(customPlayers)
+      });
+    }catch(e){
+      localStorage.setItem('sigmaStackRoster', JSON.stringify(customPlayers));
+    }
+  } else {
+    localStorage.setItem('sigmaStackRoster', JSON.stringify(customPlayers));
   }
 }
-function persistCustom(){
-  const customPlayers = roster.filter(p => customIds.has(p.id));
-  localStorage.setItem('sigmaStackRoster', JSON.stringify(customPlayers));
-  localStorage.setItem('sigmaStackCustomIds', JSON.stringify([...customIds]));
+
+function updateSyncStatus(){
+  const dot = document.getElementById('syncDot');
+  const label = document.getElementById('syncLabel');
+  dot.classList.remove('live','local');
+  if(syncMode==='live'){
+    dot.classList.add('live');
+    label.textContent = 'Live shared board \u2014 everyone sees the same roster';
+  } else {
+    dot.classList.add('local');
+    label.textContent = SHARED_BLOB_ID ? 'Shared board unreachable \u2014 saving locally for now' : 'Local-only mode \u2014 set up shared syncing above';
+  }
 }
+
+document.getElementById('createBoardBtn').addEventListener('click', async ()=>{
+  const btn = document.getElementById('createBoardBtn');
+  btn.disabled = true; btn.textContent = 'Creating…';
+  try{
+    const res = await fetch(BLOB_API, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify([])
+    });
+    const location = res.headers.get('Location') || '';
+    const id = location.split('/').pop();
+    if(!id) throw new Error('no id returned');
+    alert(`Shared board created! Your ID is:\n\n${id}\n\nCopy this, paste it into SHARED_BLOB_ID near the top of the <script> tag in index.html, save, and re-upload to GitHub. Everyone who opens the page after that will share this same board.`);
+  }catch(e){
+    alert('Could not reach the shared storage service right now. Try again in a bit, or ask Bachie to set it up.');
+  }
+  btn.disabled = false; btn.textContent = 'Create Shared Board';
+});
 
 const TIER_ORDER = ['unranked','bronze','silver','gold','platinum','emerald','diamond'];
 
@@ -552,6 +769,7 @@ function renderGrid(){
           <div class="lvl">Level ${p.level}</div>
         </div>
       </div>
+      <div class="role-line">${p.roles.primary} <span class="sec">/ ${p.roles.secondary}</span></div>
       <div class="badges">
         ${p.badges.slice(0,2).map(b=>`<span class="badge">${b}</span>`).join('')}
       </div>
@@ -574,12 +792,12 @@ function renderGrid(){
   grid.appendChild(addCard);
 
   grid.querySelectorAll('[data-remove]').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
+    btn.addEventListener('click', async (e)=>{
       e.stopPropagation();
       const id = btn.dataset.remove;
       roster = roster.filter(p=>p.id!==id);
       customIds.delete(id);
-      persistCustom();
+      await persistCustom();
       renderGrid();
       updateStats();
     });
@@ -601,6 +819,10 @@ function openPlayerModal(id){
   document.getElementById('pmTag').textContent = '#'+p.tag+' \u00b7 Level '+p.level+' \u00b7 NA';
   document.getElementById('pmBadges').innerHTML = p.badges.map(b=>`<span class="badge">${b}</span>`).join('');
 
+  document.getElementById('ovRolePrimary').textContent = p.roles.primary;
+  document.getElementById('ovRoleSecondary').textContent = p.roles.secondary;
+  document.getElementById('ovFlexNote').textContent = p.roles.flexNote || '';
+
   document.getElementById('ovSoloImg').src = TIER_IMG(p.solo.tier);
   document.getElementById('ovSoloTier').textContent = p.solo.label;
   document.getElementById('ovSoloLp').textContent = p.solo.lp;
@@ -619,6 +841,14 @@ function openPlayerModal(id){
       <img src="${CHAMP_IMG(c.name)}" alt="${c.name}" onerror="this.style.display='none'">
       <div class="cname">${c.name.replace(/([A-Z])/g,' $1').trim()}</div>
       <div class="cpts">${c.pts} pts</div>
+    </div>
+  `).join('');
+
+  document.getElementById('banNote').textContent = p.banNote || '';
+  document.getElementById('banList').innerHTML = (p.bans||[]).map(b=>`
+    <div class="ban-chip">
+      <img src="${CHAMP_IMG(b)}" alt="${b}" onerror="this.style.display='none'">
+      <span class="bname">${b}</span>
     </div>
   `).join('');
 
@@ -654,8 +884,11 @@ document.getElementById('cancelAdd').addEventListener('click', ()=>document.getE
 document.getElementById('addOverlay').addEventListener('click', (e)=>{
   if(e.target.id==='addOverlay') e.currentTarget.classList.remove('open');
 });
+document.getElementById('addHint').textContent = SHARED_BLOB_ID
+  ? 'This syncs to the shared board \u2014 everyone who opens the page will see this player.'
+  : 'Shared syncing isn\u2019t set up yet, so this saves to your browser only.';
 
-document.getElementById('submitAdd').addEventListener('click', ()=>{
+document.getElementById('submitAdd').addEventListener('click', async ()=>{
   const name = document.getElementById('fName').value.trim();
   if(!name){ alert('Give them a name first.'); return; }
   const tag = document.getElementById('fTag').value.trim() || 'NA1';
@@ -663,12 +896,16 @@ document.getElementById('submitAdd').addEventListener('click', ()=>{
   const opgg = document.getElementById('fOpgg').value.trim() || '#';
   const soloTier = document.getElementById('fSoloTier').value;
   const soloLp = document.getElementById('fSoloLp').value.trim() || '\u2014';
+  const rolePrimary = document.getElementById('fRolePrimary').value;
+  const roleSecondary = document.getElementById('fRoleSecondary').value;
   const champsRaw = document.getElementById('fChamps').value.trim();
+  const bansRaw = document.getElementById('fBans').value.trim();
   const badgesRaw = document.getElementById('fBadges').value.trim();
   const suggestRaw = document.getElementById('fSuggest').value.trim();
 
   const id = 'custom-'+name.toLowerCase().replace(/[^a-z0-9]/g,'')+'-'+Date.now();
   const champs = champsRaw ? champsRaw.split(',').map(c=>({name:c.trim(), pts:'\u2014'})) : [{name:'Unknown', pts:'\u2014'}];
+  const bans = bansRaw ? bansRaw.split(',').map(b=>b.trim()).filter(Boolean) : [];
   const badges = badgesRaw ? badgesRaw.split(',').map(b=>b.trim()).filter(Boolean) : ['New Recruit'];
   const suggestions = suggestRaw ? suggestRaw.split('\n').map(s=>s.trim()).filter(Boolean) : ['No notes yet \u2014 add some after their first ranked game with the squad.'];
 
@@ -676,20 +913,22 @@ document.getElementById('submitAdd').addEventListener('click', ()=>{
     id, name, tag, level,
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon29.jpg?image=q_auto:good,f_png,w_200',
     opgg,
+    roles:{primary:rolePrimary, secondary:roleSecondary, flexNote:''},
     solo:{tier:soloTier, label: soloTier==='unranked' ? 'Unranked' : soloTier.charAt(0).toUpperCase()+soloTier.slice(1), lp:soloLp, peak:''},
     flex:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:''},
-    champs, badges, blurb:'Freshly added to the stack. Scouting report pending.', suggestions
+    champs, badges, blurb:'Freshly added to the stack. Scouting report pending.',
+    banNote:'No scouting notes yet.', bans, suggestions
   };
 
   roster.push(newPlayer);
   customIds.add(id);
-  persistCustom();
+  await persistCustom();
   renderGrid();
   document.getElementById('addOverlay').classList.remove('open');
-  ['fName','fTag','fLevel','fOpgg','fSoloLp','fChamps','fBadges','fSuggest'].forEach(fid=>document.getElementById(fid).value='');
+  ['fName','fTag','fLevel','fOpgg','fSoloLp','fChamps','fBans','fBadges','fSuggest'].forEach(fid=>document.getElementById(fid).value='');
 });
 
-// SHARE / COPY
+// SHARE / COPY / REFRESH
 document.getElementById('copyBtn').addEventListener('click', ()=>{
   navigator.clipboard.writeText(window.location.href).then(()=>{
     const flag = document.getElementById('copiedFlag');
@@ -712,9 +951,53 @@ document.getElementById('shareBtn').addEventListener('click', ()=>{
     });
   }
 });
+document.getElementById('refreshBtn').addEventListener('click', async ()=>{
+  await loadRoster();
+  renderGrid();
+});
 
-loadRoster();
-renderGrid();
+// CAPTAIN TOOLS
+document.getElementById('lineupBtn').addEventListener('click', ()=>{
+  const pool = [...roster];
+  const assignment = {};
+  ROLE_ORDER.forEach(r=>assignment[r]=null);
+  ROLE_ORDER.forEach(role=>{
+    const idx = pool.findIndex(p=>p.roles.primary===role);
+    if(idx>-1){ assignment[role]=pool[idx]; pool.splice(idx,1); }
+  });
+  ROLE_ORDER.forEach(role=>{
+    if(!assignment[role]){
+      const idx = pool.findIndex(p=>p.roles.secondary===role);
+      if(idx>-1){ assignment[role]=pool[idx]; pool.splice(idx,1); }
+    }
+  });
+  ROLE_ORDER.forEach(role=>{
+    if(!assignment[role] && pool.length){ assignment[role]=pool.shift(); }
+  });
+  const out = document.getElementById('lineupOutput');
+  out.innerHTML = ROLE_ORDER.map(role=>`
+    <div class="lineup-row"><span class="role">${role}</span><span class="who">${assignment[role] ? assignment[role].name : '\u2014 (need more players)'}</span></div>
+  `).join('');
+  out.classList.add('show');
+});
+
+document.getElementById('coinBtn').addEventListener('click', ()=>{
+  const pick = roster[Math.floor(Math.random()*roster.length)];
+  const out = document.getElementById('coinOutput');
+  out.textContent = `${pick.name} gets first pick tonight.`;
+  out.classList.add('show');
+});
+
+document.getElementById('banRouletteBtn').addEventListener('click', ()=>{
+  const pool = roster.flatMap(p=>p.bans||[]);
+  const out = document.getElementById('banRouletteOutput');
+  if(!pool.length){ out.textContent='No ban data on the roster yet.'; out.classList.add('show'); return; }
+  const pick = pool[Math.floor(Math.random()*pool.length)];
+  out.textContent = `Consider banning: ${pick}`;
+  out.classList.add('show');
+});
+
+loadRoster().then(renderGrid);
 </script>
 </body>
 </html>
