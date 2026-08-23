@@ -728,7 +728,11 @@ document.getElementById('createBoardBtn').addEventListener('click', async ()=>{
   try{
     const email = prompt('kvdb.io needs an email to create the shared bucket (just for their records, not shown anywhere on the page). Enter one:');
     if(!email) { btn.disabled = false; btn.textContent = 'Create Shared Board'; return; }
-    const res = await fetch(`${KVDB_BASE}/?email=${encodeURIComponent(email)}`, {method:'POST'});
+    const res = await fetch(KVDB_BASE, {
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:`email=${encodeURIComponent(email)}`
+    });
     const id = (await res.text()).trim();
     if(!id || id.includes('required') || id.includes('error')) throw new Error(id || 'no id returned');
     await fetch(`${KVDB_BASE}/${id}/roster`, {method:'PUT', body:'[]'});
