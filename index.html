@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMALL CAULK GANG! — Ranked 5s Roster</title>
+<title>Ranked 5s Roster</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -320,7 +320,7 @@
 <div class="hero">
   <div class="pass">
     <div class="pass-eyebrow"><span class="dot"></span> QUEUE STATUS: LOOKING FOR RANKED 5S &mdash; NA</div>
-    <h1>SIGMA STACK</h1>
+    <h1>SMALL CAULK GANG!</h1>
     <p class="tagline">5 guys, 1 shared braincell, and a mutual understanding that this is "for fun" until someone starts int'ing. Tap a card to pull up the full scouting report.</p>
     <div class="hero-actions">
       <button class="btn primary" id="shareBtn">🔗 Share This Page</button>
@@ -1010,7 +1010,7 @@ document.getElementById('copyBtn').addEventListener('click', ()=>{
 });
 document.getElementById('shareBtn').addEventListener('click', ()=>{
   if(navigator.share){
-    navigator.share({title:'SIGMA STACK — Ranked 5s Roster', url:window.location.href}).catch(()=>{});
+    navigator.share({title:'SMALL CAULK GANG! — Ranked 5s Roster', url:window.location.href}).catch(()=>{});
   } else {
     navigator.clipboard.writeText(window.location.href).then(()=>{
       const flag = document.getElementById('copiedFlag');
