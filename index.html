@@ -701,6 +701,34 @@ const DEFAULT_ROSTER = [
       bravery:{name:'Kalista', note:'Constant repositioning, can never be caught. The exact opposite of walking straight at people as Sion.'}
     }
   },
+  {
+    id:'friedcoozhielips', name:'FriedCoozhieLips', tag:'7994', level:519,
+    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7146.jpg?image=q_auto:good,f_png,w_200',
+    opgg:'https://op.gg/lol/summoners/na/FriedCoozhieLips-7994',
+    roles:{primary:'Jungle', secondary:'Support', flexNote:'Role share leans surprisingly Support-heavy (36%) despite an all-duelist mastery pool \u2014 usually ends up there when jungle\u2019s already picked.'},
+    solo:{tier:'silver', label:'Silver 4', lp:'10 LP', peak:'Peaked Silver 4 (current) after bouncing through Iron and Bronze the last few seasons'},
+    flex:{tier:'silver', label:'Silver 4', lp:'67 LP', peak:'Peaked Silver 4 (current), up from Bronze in past seasons'},
+    champs:[
+      {name:'Kayn', pts:'239,279'},
+      {name:'Warwick', pts:'105,697'},
+      {name:'MasterYi', pts:'120,407'},
+      {name:'Sett', pts:'91,511'},
+    ],
+    banNote:'Early-game invade duelists like Kayn/Warwick/Sett/Yi win by finding a fight before level 6 \u2014 tanky counter-junglers or ranged kiters flip that all-in plan upside down.',
+    bans:['Nunu','JarvanIV','Kindred'],
+    badges:['Camp Invader','Duelist Menace','Forgot He\u2019s Support Sometimes'],
+    blurb:'Four different champs, one identity: walk up, duel, win the 1v1. Kayn, Warwick, Sett, and Yi are all "find a fight before anyone can peel" picks \u2014 yet somehow also logs a ton of Support games.',
+    suggestions:[
+      'Every mastery champ (Kayn, Warwick, Sett, Yi) is an aggressive early-skirmish duelist, but rank has bounced Iron-to-Silver across seasons \u2014 that volatility usually means the invades are high-variance; tracking enemy jungler pathing before committing to a duel could cut down on games that go wrong by level 3.',
+      'Role share shows nearly as much time in Support (36%) as Jungle (43%) despite a 100% duelist mastery pool \u2014 that\u2019s a lot of games spent completely outside comfort champs. Picking an actual support-flavored champ instead of forcing a jungle main into bot lane would probably help that winrate.',
+      'The last 20 games are running a win rate above the season average \u2014 whatever\u2019s working lately is worth sticking with instead of switching things up mid-streak.'
+    ],
+    recs:{
+      safe:{name:'XinZhao', note:'Another early-invade duelist jungler \u2014 same all-in identity as Kayn/Warwick/Yi, just point-and-click instead of stance-based.'},
+      newTry:{name:'Rengar', note:'Still a duelist jungler, but ambush-and-stealth based instead of straight skirmish \u2014 same aggression, different execution.'},
+      bravery:{name:'Soraka', note:'Heals, never fights, zero kill pressure. The exact opposite of an invade-and-duel jungle main.'}
+    }
+  },
 ];
 
 let roster = [];
@@ -969,7 +997,7 @@ renderGrid();
 </script>
 
 <div class="clicker">
-  <div class="clicker-label">Ghostie's Cookie</div>
+  <div class="clicker-label">Nexus Clicks</div>
   <div class="clicker-count" id="clickerCount">0</div>
   <button class="clicker-btn" id="clickerBtn" aria-label="Click the cookie" title="Click for the boys"></button>
 </div>
