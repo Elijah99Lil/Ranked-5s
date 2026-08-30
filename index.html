@@ -201,6 +201,35 @@
   .lineup-row .who:hover{border-color:var(--line); background:var(--bg2);}
   .lineup-row .who.picked{border-color:var(--teal); background:rgba(10,200,185,0.12); color:var(--teal);}
   .lineup-hint{font-size:11px; color:var(--muted); margin-bottom:8px;}
+  .tonight-list{display:flex; flex-wrap:wrap; gap:6px;}
+  .tonight-chip{
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; padding:5px 10px; border-radius:20px;
+    border:1px solid var(--line); background:var(--bg2); color:var(--muted); cursor:pointer; user-select:none;
+  }
+  .tonight-chip.on{border-color:var(--teal); color:var(--teal); background:rgba(10,200,185,0.08);}
+
+  /* ===== CORNER CLICKER ===== */
+  .clicker{
+    position:fixed; bottom:18px; right:18px; z-index:60;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:12px 14px; box-shadow:0 8px 24px rgba(0,0,0,0.45);
+  }
+  .clicker-count{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:18px; color:var(--gold);}
+  .clicker-label{font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:4px;}
+  .clicker-btn{
+    width:56px; height:56px; border-radius:50%; border:2px solid var(--teal); cursor:pointer;
+    background:radial-gradient(circle at 35% 30%, #17e0cd, #067a70 70%);
+    box-shadow:0 0 16px rgba(10,200,185,0.5), inset 0 0 10px rgba(0,0,0,0.3);
+    transition:transform .08s ease;
+  }
+  .clicker-btn:active{transform:scale(0.88);}
+  .clicker-pulse{animation:clickerPulse .25s ease;}
+  @keyframes clickerPulse{0%{transform:scale(1);} 40%{transform:scale(1.18);} 100%{transform:scale(1);}}
+  @media (max-width:600px){
+    .clicker{bottom:12px; right:12px; padding:8px 10px;}
+    .clicker-btn{width:46px; height:46px;}
+  }
 
   /* ===== MODAL ===== */
   .overlay{
@@ -314,11 +343,10 @@
   <div class="pass">
     <div class="pass-eyebrow"><span class="dot"></span> QUEUE STATUS: LOOKING FOR RANKED 5S &mdash; NA</div>
     <h1>SCG</h1>
-    <p class="tagline">We're gonna be da best, BELIEVE IT! DATTEBAYO! Click a card to pull up the full scouting report.</p>
+    <p class="tagline">5 guys, 1 shared braincell, and a mutual understanding that this is "for fun" until someone starts int'ing. Tap a card to pull up the full scouting report.</p>
     <div class="hero-actions">
       <button class="btn primary" id="shareBtn">🔗 Share This Page</button>
       <button class="btn ghost" id="copyBtn">Copy Link</button>
-      <button class="btn ghost" id="restoreBtn" style="display:none;">Restore Removed Players</button>
       <span class="copied-flag mono" id="copiedFlag">copied to clipboard ✓</span>
     </div>
     <div class="stat-row">
@@ -345,13 +373,14 @@
   <div class="tool-grid">
     <div class="tool-card">
       <h3>Auto-Assign Roles</h3>
-      <p>Slots the current roster into Top / Jungle / Mid / ADC / Support based on everyone's preferred roles.</p>
-      <button class="btn small primary" id="lineupBtn">Build Lineup</button>
+      <p>Uncheck anyone who's out tonight, then slot the rest into Top / Jungle / Mid / ADC / Support based on preferred roles.</p>
+      <div class="tonight-list" id="tonightList"></div>
+      <button class="btn small primary" id="lineupBtn" style="margin-top:10px;">Build Lineup</button>
       <div class="tool-output" id="lineupOutput"></div>
     </div>
     <div class="tool-card">
-      <h3>Who Picks First?</h3>
-      <p>Random coin flip to decide who gets first pick or first ban priority tonight.</p>
+      <h3>Who Picks Last?</h3>
+      <p>Last pick sees the whole draft first \u2014 random coin flip to decide who gets that info advantage tonight.</p>
       <button class="btn small primary" id="coinBtn">Flip It</button>
       <div class="tool-output" id="coinOutput"></div>
     </div>
@@ -636,36 +665,48 @@ const DEFAULT_ROSTER = [
       bravery:{name:'Katarina', note:'All-in, reset-chaining, zero utility for anyone else. About as far from "protect the team" as it gets.'}
     }
   },
+  {
+    id:'eldyn', name:'Eldyn', tag:'1421', level:697,
+    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon6948.jpg?image=q_auto:good,f_png,w_200',
+    opgg:'https://op.gg/lol/summoners/na/Eldyn-1421',
+    roles:{primary:'Top', secondary:'Jungle', flexNote:'Thresh and Alistar mastery means support is a legit third option too.'},
+    solo:{tier:'emerald', label:'Emerald 4', lp:'28 LP', peak:'Peaked Emerald 1 (S2024 S1) \u2014 Emerald in five straight logged ranked seasons'},
+    flex:{tier:'platinum', label:'Platinum 2', lp:'84 LP', peak:'Best Flex finish: Platinum 2'},
+    champs:[
+      {name:'Sion', pts:'284,368'},
+      {name:'LeeSin', pts:'198,557'},
+      {name:'Thresh', pts:'127,978'},
+      {name:'Alistar', pts:'122,416'},
+    ],
+    banNote:'Ranged kiters and tank-shredding true damage make life miserable for Sion/Alistar/Thresh \u2014 engage that can\u2019t stick wastes the whole game plan.',
+    bans:['Gwen','Kalista','Vayne'],
+    badges:['The Most Consistent Emerald','Never Really Dies (Sion Passive)','Secretly The Best Ranked Player'],
+    blurb:'Emerald across five separate ranked seasons \u2014 no wild swings, no Iron-to-Diamond rollercoaster, just steady Emerald every single split. The most quietly reliable rank on the whole roster.',
+    suggestions:[
+      'Emerald across five different seasons is the most consistent record on the roster \u2014 the ceiling might genuinely be higher if a real dedicated climb (not casual queueing) happened this split.',
+      'Sion, Lee Sin, Thresh, and Alistar are all engage-first champs that live and die on landing the first hit \u2014 engaging off vision instead of blind could cut down on games that go wrong in the first 10 minutes.',
+      'Flex peak (Platinum 2) sits a tier above Solo/Duo peak \u2014 whatever\u2019s working in flex games is worth carrying into solo queue.'
+    ],
+    recs:{
+      safe:{name:'Ornn', note:'Another unkillable tank identity like Sion, just with more team-wide utility on top.'},
+      newTry:{name:'Rammus', note:'Still an engage-first tank, but rolls into fights instead of walking \u2014 same job, very different feel.'},
+      bravery:{name:'Kalista', note:'Constant repositioning, can never be caught. The exact opposite of walking straight at people as Sion.'}
+    }
+  },
 ];
 
 let roster = [];
-let hiddenIds = new Set();
 
 function loadRoster(){
   roster = [...DEFAULT_ROSTER];
-  const saved = localStorage.getItem('sigmaStackHidden');
-  if(saved){
-    try{ hiddenIds = new Set(JSON.parse(saved)); }catch(e){}
-  }
 }
-
-function persistHidden(){
-  localStorage.setItem('sigmaStackHidden', JSON.stringify([...hiddenIds]));
-  document.getElementById('restoreBtn').style.display = hiddenIds.size ? 'inline-flex' : 'none';
-}
-
-document.getElementById('restoreBtn').addEventListener('click', ()=>{
-  hiddenIds.clear();
-  persistHidden();
-  renderGrid();
-});
 
 const TIER_ORDER = ['unranked','bronze','silver','gold','platinum','emerald','diamond'];
 
 function highestPeakLabel(){
   let best = 'Bronze';
   let bestIdx = -1;
-  roster.filter(p=>!hiddenIds.has(p.id)).forEach(p=>{
+  roster.forEach(p=>{
     [p.solo, p.flex].forEach(r=>{
       if(!r) return;
       const idx = TIER_ORDER.indexOf(r.tier);
@@ -678,14 +719,13 @@ function highestPeakLabel(){
 function renderGrid(){
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
-  roster.filter(p=>!hiddenIds.has(p.id)).forEach(p=>{
+  roster.forEach(p=>{
     const card = document.createElement('div');
     card.className = 'card';
     card.dataset.id = p.id;
     const spineColor = TIER_COLORS[p.solo.tier] || TIER_COLORS.unranked;
     card.innerHTML = `
       <div class="spine" style="background:${spineColor}"></div>
-      <div class="remove-x" data-remove="${p.id}" title="Remove from view">&times;</div>
       <div class="card-top">
         <img class="icon" src="${p.icon}" alt="${p.name}">
         <div class="card-name">
@@ -703,29 +743,15 @@ function renderGrid(){
         <div class="rank-chip"><img src="${TIER_IMG(p.flex.tier)}"><div><span class="rlabel">Flex</span><span class="rval">${p.flex.label}</span></div></div>
       </div>
     `;
-    card.addEventListener('click', (e)=>{
-      if(e.target.closest('.remove-x')) return;
-      openPlayerModal(p.id);
-    });
+    card.addEventListener('click', ()=> openPlayerModal(p.id));
     grid.appendChild(card);
-  });
-
-  grid.querySelectorAll('[data-remove]').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      const id = btn.dataset.remove;
-      hiddenIds.add(id);
-      persistHidden();
-      renderGrid();
-      updateStats();
-    });
   });
 
   updateStats();
 }
 
 function updateStats(){
-  document.getElementById('statCount').textContent = roster.filter(p=>!hiddenIds.has(p.id)).length;
+  document.getElementById('statCount').textContent = roster.length;
   document.getElementById('statHighest').textContent = highestPeakLabel();
 }
 
@@ -844,9 +870,25 @@ document.getElementById('shareBtn').addEventListener('click', ()=>{
 // CAPTAIN TOOLS
 let currentLineup = {};
 let lineupPicked = null;
+let tonightActive = new Set();
+
+function renderTonightList(){
+  const el = document.getElementById('tonightList');
+  if(tonightActive.size===0){ roster.forEach(p=>tonightActive.add(p.id)); }
+  el.innerHTML = roster.map(p=>`
+    <span class="tonight-chip ${tonightActive.has(p.id)?'on':''}" data-id="${p.id}">${p.name}</span>
+  `).join('');
+  el.querySelectorAll('.tonight-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      const id = chip.dataset.id;
+      if(tonightActive.has(id)) tonightActive.delete(id); else tonightActive.add(id);
+      chip.classList.toggle('on');
+    });
+  });
+}
 
 function buildLineup(){
-  const pool = roster.filter(p=>!hiddenIds.has(p.id));
+  const pool = roster.filter(p=>tonightActive.has(p.id));
   currentLineup = {};
   ROLE_ORDER.forEach(r=>currentLineup[r]=null);
   ROLE_ORDER.forEach(role=>{
@@ -897,15 +939,15 @@ function renderLineup(){
 document.getElementById('lineupBtn').addEventListener('click', buildLineup);
 
 document.getElementById('coinBtn').addEventListener('click', ()=>{
-  const visible = roster.filter(p=>!hiddenIds.has(p.id));
+  const visible = roster.filter(p=>tonightActive.has(p.id));
   const pick = visible[Math.floor(Math.random()*visible.length)];
   const out = document.getElementById('coinOutput');
-  out.textContent = `${pick.name} gets first pick tonight.`;
+  out.textContent = `${pick.name} picks last tonight.`;
   out.classList.add('show');
 });
 
 document.getElementById('banRouletteBtn').addEventListener('click', ()=>{
-  const pool = roster.filter(p=>!hiddenIds.has(p.id)).flatMap(p=>p.bans||[]);
+  const pool = roster.filter(p=>tonightActive.has(p.id)).flatMap(p=>p.bans||[]);
   const out = document.getElementById('banRouletteOutput');
   if(!pool.length){ out.textContent='No ban data on the roster yet.'; out.classList.add('show'); return; }
   const pick = pool[Math.floor(Math.random()*pool.length)];
@@ -914,8 +956,30 @@ document.getElementById('banRouletteBtn').addEventListener('click', ()=>{
 });
 
 loadRoster();
-if(hiddenIds.size) document.getElementById('restoreBtn').style.display = 'inline-flex';
+renderTonightList();
 renderGrid();
 </script>
+
+<div class="clicker">
+  <div class="clicker-label">Nexus Clicks</div>
+  <div class="clicker-count" id="clickerCount">0</div>
+  <button class="clicker-btn" id="clickerBtn" aria-label="Click the nexus" title="Click for the boys"></button>
+</div>
+
+<script>
+// CORNER CLICKER
+let clickerCount = parseInt(localStorage.getItem('sigmaStackClicks')||'0', 10) || 0;
+const clickerCountEl = document.getElementById('clickerCount');
+clickerCountEl.textContent = clickerCount.toLocaleString();
+document.getElementById('clickerBtn').addEventListener('click', (e)=>{
+  clickerCount++;
+  localStorage.setItem('sigmaStackClicks', clickerCount);
+  clickerCountEl.textContent = clickerCount.toLocaleString();
+  clickerCountEl.classList.remove('clicker-pulse');
+  void clickerCountEl.offsetWidth;
+  clickerCountEl.classList.add('clicker-pulse');
+});
+</script>
+
 </body>
 </html>
