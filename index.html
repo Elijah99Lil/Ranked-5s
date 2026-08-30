@@ -218,9 +218,17 @@
   .clicker-count{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:18px; color:var(--gold);}
   .clicker-label{font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:4px;}
   .clicker-btn{
-    width:56px; height:56px; border-radius:50%; border:2px solid var(--teal); cursor:pointer;
-    background:radial-gradient(circle at 35% 30%, #17e0cd, #067a70 70%);
-    box-shadow:0 0 16px rgba(10,200,185,0.5), inset 0 0 10px rgba(0,0,0,0.3);
+    width:56px; height:56px; border-radius:50%; border:2px solid #7a4a23; cursor:pointer;
+    background:
+      radial-gradient(circle at 30% 25%, #8b5a2b 3px, transparent 4px),
+      radial-gradient(circle at 65% 20%, #6b4220 3px, transparent 4px),
+      radial-gradient(circle at 75% 55%, #8b5a2b 3px, transparent 4px),
+      radial-gradient(circle at 40% 60%, #6b4220 3.5px, transparent 4.5px),
+      radial-gradient(circle at 25% 75%, #8b5a2b 2.5px, transparent 3.5px),
+      radial-gradient(circle at 60% 80%, #6b4220 3px, transparent 4px),
+      radial-gradient(circle at 50% 45%, #8b5a2b 3px, transparent 4px),
+      radial-gradient(circle at 35% 40%, #d9a05b, #c1863f 60%, #a86a2c 100%);
+    box-shadow:0 0 14px rgba(200,140,60,0.4), inset 0 0 10px rgba(0,0,0,0.25);
     transition:transform .08s ease;
   }
   .clicker-btn:active{transform:scale(0.88);}
@@ -963,7 +971,7 @@ renderGrid();
 <div class="clicker">
   <div class="clicker-label">Nexus Clicks</div>
   <div class="clicker-count" id="clickerCount">0</div>
-  <button class="clicker-btn" id="clickerBtn" aria-label="Click the nexus" title="Click for the boys"></button>
+  <button class="clicker-btn" id="clickerBtn" aria-label="Click the cookie" title="Click for the boys"></button>
 </div>
 
 <script>
