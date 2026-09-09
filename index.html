@@ -729,6 +729,34 @@ const DEFAULT_ROSTER = [
       bravery:{name:'Soraka', note:'Heals, never fights, zero kill pressure. The exact opposite of an invade-and-duel jungle main.'}
     }
   },
+  {
+    id:'whysonacly', name:'Why So NaCIy', tag:'NA1', level:452,
+    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon6064.jpg?image=q_auto:good,f_png,w_200',
+    opgg:'https://op.gg/lol/summoners/na/Why%20So%20NaCIy-NA1',
+    roles:{primary:'ADC', secondary:'Support', flexNote:'Lux mastery is actually the highest of the four despite three ADC mains beneath it \u2014 real flex-support/mid experience if the comp ever needs it.'},
+    solo:{tier:'unranked', label:'Unranked', lp:'this season', peak:'Peaked Platinum 3 (S2024 S1) \u2014 ranked history dating all the way back to S2021'},
+    flex:{tier:'unranked', label:'Unranked', lp:'no flex history', peak:'No Ranked Flex games logged'},
+    champs:[
+      {name:'Lux', pts:'266,396'},
+      {name:'Vayne', pts:'172,502'},
+      {name:'Caitlyn', pts:'153,853'},
+      {name:'MissFortune', pts:'131,732'},
+    ],
+    banNote:'Vayne/Caitlyn/MF all want distance and time to kite \u2014 hard engage supports and mobile duelists that close the gap fast take away exactly that.',
+    bans:['Leona','Renata Glasc','Zeri'],
+    badges:['OG Veteran (Ranked Since 2021)','Certified ADC Enjoyer','Lux Support Sometimes'],
+    blurb:'Ranked history going back to 2021, bouncing Gold-to-Platinum the whole way. Three ADC mains and a Lux pool deep enough to flex support when the comp needs it.',
+    suggestions:[
+      'Peak has bounced Gold-to-Platinum across five different seasons dating back to 2021 \u2014 one of the longest, most consistent ranked histories on the roster, worth treating like a real climb this split instead of casual games.',
+      'Lux mastery is actually the highest in the pool despite three ADC mains sitting under it \u2014 that\u2019s genuine flex-support/mid experience worth leaning on if the 5-stack needs it.',
+      'No ranked games logged yet this season \u2014 getting placements in would give an accurate current read instead of relying on last season\u2019s Gold 2.'
+    ],
+    recs:{
+      safe:{name:'Ashe', note:'Another ranged ADC that wants distance and kiting like Vayne/Caitlyn, with a bit more team utility built in.'},
+      newTry:{name:'Zeri', note:'Still an ADC, but a mobile hypercarry instead of a pure kiter \u2014 fresh feel, same lane.'},
+      bravery:{name:'Darius', note:'Melee, zero range, walks straight at people and wins with a bleed. The total opposite of "keep distance and kite."'}
+    }
+  },
 ];
 
 let roster = [];
@@ -997,24 +1025,82 @@ renderGrid();
 </script>
 
 <div class="clicker">
-  <div class="clicker-label">Nexus Clicks</div>
+  <div class="clicker-label">Ghostie's Cookie</div>
   <div class="clicker-count" id="clickerCount">0</div>
   <button class="clicker-btn" id="clickerBtn" aria-label="Click the cookie" title="Click for the boys"></button>
+  <a href="#" id="clickerSetupLink" style="font-size:9px; color:var(--muted); font-family:'JetBrains Mono',monospace; margin-top:2px; display:none;">set up global count</a>
 </div>
 
 <script>
 // CORNER CLICKER
+/* Leave COOKIE_BUCKET_ID blank the first time you deploy. Click
+   "set up global count" under the cookie once, paste the ID it
+   gives you below, save, and re-upload. After that, everyone who
+   opens the page shares the SAME cumulative cookie count. */
+const COOKIE_BUCKET_ID = '';
+const COOKIE_KVDB_BASE = 'https://kvdb.io';
+
 let clickerCount = parseInt(localStorage.getItem('sigmaStackClicks')||'0', 10) || 0;
+let cookieLive = false;
 const clickerCountEl = document.getElementById('clickerCount');
 clickerCountEl.textContent = clickerCount.toLocaleString();
-document.getElementById('clickerBtn').addEventListener('click', (e)=>{
+
+async function loadCookieCount(){
+  if(!COOKIE_BUCKET_ID){
+    document.getElementById('clickerSetupLink').style.display = 'block';
+    return;
+  }
+  try{
+    const res = await fetch(`${COOKIE_KVDB_BASE}/${COOKIE_BUCKET_ID}/cookies`);
+    if(res.status === 404){
+      clickerCount = 0;
+    } else if(res.ok){
+      const text = (await res.text()).trim();
+      clickerCount = parseInt(text, 10) || 0;
+    } else {
+      throw new Error('bad status');
+    }
+    cookieLive = true;
+    clickerCountEl.textContent = clickerCount.toLocaleString();
+  }catch(e){
+    cookieLive = false;
+  }
+}
+
+document.getElementById('clickerBtn').addEventListener('click', async ()=>{
   clickerCount++;
-  localStorage.setItem('sigmaStackClicks', clickerCount);
   clickerCountEl.textContent = clickerCount.toLocaleString();
   clickerCountEl.classList.remove('clicker-pulse');
   void clickerCountEl.offsetWidth;
   clickerCountEl.classList.add('clicker-pulse');
+  localStorage.setItem('sigmaStackClicks', clickerCount);
+  if(COOKIE_BUCKET_ID && cookieLive){
+    try{
+      await fetch(`${COOKIE_KVDB_BASE}/${COOKIE_BUCKET_ID}/cookies`, {method:'PUT', body:String(clickerCount)});
+    }catch(e){ /* local count still saved above */ }
+  }
 });
+
+document.getElementById('clickerSetupLink').addEventListener('click', async (e)=>{
+  e.preventDefault();
+  const email = prompt('kvdb.io needs an email to create the shared bucket (just for their records, not shown on the page). Enter one:');
+  if(!email) return;
+  try{
+    const res = await fetch(COOKIE_KVDB_BASE, {
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:`email=${encodeURIComponent(email)}`
+    });
+    const id = (await res.text()).trim();
+    if(!id || id.includes('required') || id.includes('error')) throw new Error(id || 'no id returned');
+    await fetch(`${COOKIE_KVDB_BASE}/${id}/cookies`, {method:'PUT', body:'0'});
+    alert(`Shared cookie counter created! Your ID is:\n\n${id}\n\nCopy this, paste it into COOKIE_BUCKET_ID near the top of the <script> tag in index.html, save, and re-upload to GitHub. Everyone who opens the page after that shares the same running cookie count.`);
+  }catch(e){
+    alert('Could not create the shared counter.\n\nDetails: ' + (e && e.message ? e.message : e));
+  }
+});
+
+loadCookieCount();
 </script>
 
 </body>
