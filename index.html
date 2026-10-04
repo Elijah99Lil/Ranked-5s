@@ -436,9 +436,9 @@
         </div>
         <div class="rank-grid" style="margin-top:12px;">
           <div class="rank-box">
-            <div class="rb-label">Ranked Solo/Duo</div>
-            <div class="rb-main"><img id="ovSoloImg" src="" alt=""><div><div class="rb-tier" id="ovSoloTier">—</div><div class="rb-lp" id="ovSoloLp">—</div></div></div>
-            <div class="peak-line" id="ovSoloPeak"></div>
+            <div class="rb-label">Ranked 5s</div>
+            <div class="rb-main"><img id="ovFivesImg" src="" alt=""><div><div class="rb-tier" id="ovFivesTier">—</div><div class="rb-lp" id="ovFivesLp">—</div></div></div>
+            <div class="peak-line" id="ovFivesPeak"></div>
           </div>
           <div class="rank-box">
             <div class="rb-label">Ranked Flex</div>
@@ -482,8 +482,8 @@ const DEFAULT_ROSTER = [
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7178.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Bachie-NA1',
     roles:{primary:'Top', secondary:'ADC', flexNote:'Recent role share is 71% Top \u2014 the ADC pool below is the old main, kept warm for nights the squad needs a bot laner.'},
-    solo:{tier:'emerald', label:'Emerald 2', lp:'80 LP', peak:'Peaked Diamond 4 (S2024 S2) — OP.GG even flags this account as "D1 Peak" for the region'},
-    flex:{tier:'platinum', label:'Platinum 1', lp:'22 LP', peak:'Best flex season: Platinum 1'},
+    flex:{tier:'platinum', label:'Platinum 1', lp:'22 LP', peak:'Platinum 1 (current) \u2014 peaked Diamond 4 in Solo back in S2024'},
+    fives:{tier:'diamond', label:'Diamond 4', lp:'6 LP', peak:'9W-11L this split \u2014 the sharpest number on his whole profile'},
     champs:[
       {name:'Aphelios', pts:'424,490'},
       {name:'Ezreal', pts:'331,403'},
@@ -510,8 +510,8 @@ const DEFAULT_ROSTER = [
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7185.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/PsycoticCone-FROG',
     roles:{primary:'Support', secondary:'ADC', flexNote:'Has logged real games top lane too \u2014 genuinely a fill-anything option in a pinch.'},
-    solo:{tier:'unranked', label:'Unranked', lp:'this season', peak:'Peak: Bronze 2 (S2023 S1) \u2014 mostly Bronze across every ranked season on record'},
-    flex:{tier:'unranked', label:'Unranked', lp:'no flex history', peak:'No Ranked Flex games logged yet'},
+    flex:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'No Ranked Flex games logged'},
+    fives:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'Hasn\u2019t queued Ranked 5s yet'},
     champs:[
       {name:'MissFortune', pts:'208,917'},
       {name:'Leona', pts:'126,772'},
@@ -538,8 +538,8 @@ const DEFAULT_ROSTER = [
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7185.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Tanner-Feed',
     roles:{primary:'ADC', secondary:'Support', flexNote:'The Janna mastery is real \u2014 legit second role, not just an off-role fallback.'},
-    solo:{tier:'emerald', label:'Emerald 3', lp:'84 LP', peak:'Peaked Platinum 2 (S2024 S3) before climbing to Emerald in S2025'},
-    flex:{tier:'platinum', label:'Platinum 3', lp:'9 LP', peak:'Currently Platinum 3 in Flex'},
+    flex:{tier:'platinum', label:'Platinum 3', lp:'9 LP', peak:'Platinum 3 last split'},
+    fives:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'Hasn\u2019t queued Ranked 5s yet'},
     champs:[
       {name:'Vayne', pts:'828,239'},
       {name:'Janna', pts:'558,287'},
@@ -566,8 +566,8 @@ const DEFAULT_ROSTER = [
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7101.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/SunShadowRay-86753',
     roles:{primary:'Mid', secondary:'Support', flexNote:'Xerath and Vel\u2019Koz both flex to support if the comp needs poke from bot instead.'},
-    solo:{tier:'unranked', label:'Unranked', lp:'this season', peak:'Peak: Gold 1 (S2023 S1)'},
-    flex:{tier:'silver', label:'Silver 2', lp:'1 LP', peak:'Best Flex finish: Silver 2'},
+    flex:{tier:'silver', label:'Silver 2', lp:'1 LP', peak:'Silver 2 (S2023 S2) \u2014 only Flex season on record'},
+    fives:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'Hasn\u2019t queued Ranked 5s yet'},
     champs:[
       {name:'Xerath', pts:'259,627'},
       {name:'Velkoz', pts:'115,272'},
@@ -594,8 +594,8 @@ const DEFAULT_ROSTER = [
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon977.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Gerudo%20King-NA1',
     roles:{primary:'Support', secondary:'Jungle', flexNote:'Lee Sin and Ekko make jungle a legitimate second role, not just an emergency fill.'},
-    solo:{tier:'bronze', label:'Bronze 1', lp:'11 LP', peak:'Peaked Silver 1 (S2023 S1)'},
-    flex:{tier:'bronze', label:'Bronze 1', lp:'28 LP', peak:'Best Flex finish: Silver 4'},
+    flex:{tier:'bronze', label:'Bronze 1', lp:'28 LP', peak:'Bronze 1 last split, up from Silver 4 the split before'},
+    fives:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'Hasn\u2019t queued Ranked 5s yet'},
     champs:[
       {name:'Blitzcrank', pts:'533,629'},
       {name:'Thresh', pts:'423,741'},
@@ -622,8 +622,8 @@ const DEFAULT_ROSTER = [
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon5294.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Snoozin-Boo',
     roles:{primary:'Mid', secondary:'Support', flexNote:'Lee Sin mastery means jungle is a real third option when the comp needs it.'},
-    solo:{tier:'silver', label:'Silver 4', lp:'74 LP', peak:'Peaked Gold 3 (S2023 S2)'},
-    flex:{tier:'bronze', label:'Bronze 2', lp:'28 LP', peak:'Best Flex finish: Bronze 2'},
+    flex:{tier:'bronze', label:'Bronze 2', lp:'28 LP', peak:'Bronze 2 last split'},
+    fives:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'Hasn\u2019t queued Ranked 5s yet'},
     champs:[
       {name:'Thresh', pts:'405,203'},
       {name:'Zed', pts:'330,223'},
@@ -650,8 +650,8 @@ const DEFAULT_ROSTER = [
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7123.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/DanceAngelDance-777',
     roles:{primary:'Support', secondary:'Top', flexNote:'Kennen and Kayle both work fine top lane if the squad needs a fifth instead of a fourth support.'},
-    solo:{tier:'unranked', label:'Unranked', lp:'this season', peak:'Peak: Bronze 4 (S2023 S2)'},
-    flex:{tier:'unranked', label:'Unranked', lp:'no recent history', peak:'Best Flex finish: Bronze 4'},
+    flex:{tier:'bronze', label:'Bronze 4', lp:'73 LP', peak:'Bronze 4 (S2023 S2) \u2014 only Flex season on record'},
+    fives:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'Hasn\u2019t queued Ranked 5s yet'},
     champs:[
       {name:'Rell', pts:'73,927'},
       {name:'Kennen', pts:'59,291'},
@@ -678,8 +678,8 @@ const DEFAULT_ROSTER = [
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon3152.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Eldyn-1421',
     roles:{primary:'Top', secondary:'Jungle', flexNote:'Thresh and Alistar mastery means support is a legit third option too.'},
-    solo:{tier:'emerald', label:'Emerald 4', lp:'28 LP', peak:'Peaked Emerald 1 (S2024 S1) \u2014 Emerald in five straight logged ranked seasons'},
-    flex:{tier:'platinum', label:'Platinum 2', lp:'84 LP', peak:'Best Flex finish: Platinum 2'},
+    flex:{tier:'platinum', label:'Platinum 2', lp:'84 LP', peak:'Platinum 2 last split'},
+    fives:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'Has the Ranked 5s tab but no games logged yet'},
     champs:[
       {name:'Sion', pts:'285,125'},
       {name:'LeeSin', pts:'201,073'},
@@ -693,7 +693,7 @@ const DEFAULT_ROSTER = [
     suggestions:[
       'Emerald across five different seasons is the most consistent record on the roster \u2014 the ceiling might genuinely be higher if a real dedicated climb (not casual queueing) happened this split.',
       'Sion, Lee Sin, Thresh, and Alistar are all engage-first champs that live and die on landing the first hit \u2014 engaging off vision instead of blind could cut down on games that go wrong in the first 10 minutes.',
-      'Flex peak (Platinum 2) sits a tier above Solo/Duo peak \u2014 whatever\u2019s working in flex games is worth carrying into solo queue.'
+      'Flex sits at a clean Platinum 2 \u2014 if the squad ever needs a flex-queue duo before a 5s night, this is the account to bring.'
     ],
     recs:{
       safe:{name:'Ornn', note:'Another unkillable tank identity like Sion, just with more team-wide utility on top.'},
@@ -706,8 +706,8 @@ const DEFAULT_ROSTER = [
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7146.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/FriedCoozhieLips-7994',
     roles:{primary:'Jungle', secondary:'Support', flexNote:'Role share leans surprisingly Support-heavy (36%) despite an all-duelist mastery pool \u2014 usually ends up there when jungle\u2019s already picked.'},
-    solo:{tier:'silver', label:'Silver 4', lp:'10 LP', peak:'Peaked Silver 4 (current) after bouncing through Iron and Bronze the last few seasons'},
-    flex:{tier:'silver', label:'Silver 4', lp:'67 LP', peak:'Peaked Silver 4 (current), up from Bronze in past seasons'},
+    flex:{tier:'silver', label:'Silver 4', lp:'67 LP', peak:'Silver 4 (current) \u2014 6W-12L this split'},
+    fives:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'Hasn\u2019t queued Ranked 5s yet'},
     champs:[
       {name:'Kayn', pts:'239,279'},
       {name:'Warwick', pts:'105,697'},
@@ -734,8 +734,8 @@ const DEFAULT_ROSTER = [
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon6064.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Why%20So%20NaCIy-NA1',
     roles:{primary:'ADC', secondary:'Support', flexNote:'Lux mastery is actually the highest of the four despite three ADC mains beneath it \u2014 real flex-support/mid experience if the comp ever needs it.'},
-    solo:{tier:'unranked', label:'Unranked', lp:'this season', peak:'Peaked Platinum 3 (S2024 S1) \u2014 ranked history dating all the way back to S2021'},
-    flex:{tier:'unranked', label:'Unranked', lp:'no flex history', peak:'No Ranked Flex games logged'},
+    flex:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'No Ranked Flex games logged'},
+    fives:{tier:'unranked', label:'Unranked', lp:'\u2014', peak:'Hasn\u2019t queued Ranked 5s yet'},
     champs:[
       {name:'Lux', pts:'266,396'},
       {name:'Vayne', pts:'172,502'},
@@ -771,7 +771,7 @@ function highestPeakLabel(){
   let best = 'Bronze';
   let bestIdx = -1;
   roster.forEach(p=>{
-    [p.solo, p.flex].forEach(r=>{
+    [p.flex, p.fives].forEach(r=>{
       if(!r) return;
       const idx = TIER_ORDER.indexOf(r.tier);
       if(idx > bestIdx){ bestIdx = idx; best = r.tier; }
@@ -787,7 +787,7 @@ function renderGrid(){
     const card = document.createElement('div');
     card.className = 'card';
     card.dataset.id = p.id;
-    const spineColor = TIER_COLORS[p.solo.tier] || TIER_COLORS.unranked;
+    const spineColor = TIER_COLORS[p.flex.tier] || TIER_COLORS.unranked;
     card.innerHTML = `
       <div class="spine" style="background:${spineColor}"></div>
       <div class="card-top">
@@ -803,8 +803,8 @@ function renderGrid(){
         ${p.badges.slice(0,2).map(b=>`<span class="badge">${b}</span>`).join('')}
       </div>
       <div class="rank-row">
-        <div class="rank-chip"><img src="${TIER_IMG(p.solo.tier)}"><div><span class="rlabel">Solo</span><span class="rval">${p.solo.label}</span></div></div>
         <div class="rank-chip"><img src="${TIER_IMG(p.flex.tier)}"><div><span class="rlabel">Flex</span><span class="rval">${p.flex.label}</span></div></div>
+        <div class="rank-chip"><img src="${TIER_IMG(p.fives.tier)}"><div><span class="rlabel">5s</span><span class="rval">${p.fives.label}</span></div></div>
       </div>
     `;
     card.addEventListener('click', ()=> openPlayerModal(p.id));
@@ -831,10 +831,10 @@ function openPlayerModal(id){
   document.getElementById('ovRoleSecondary').textContent = p.roles.secondary;
   document.getElementById('ovFlexNote').textContent = p.roles.flexNote || '';
 
-  document.getElementById('ovSoloImg').src = TIER_IMG(p.solo.tier);
-  document.getElementById('ovSoloTier').textContent = p.solo.label;
-  document.getElementById('ovSoloLp').textContent = p.solo.lp;
-  document.getElementById('ovSoloPeak').textContent = p.solo.peak || '';
+  document.getElementById('ovFivesImg').src = TIER_IMG(p.fives.tier);
+  document.getElementById('ovFivesTier').textContent = p.fives.label;
+  document.getElementById('ovFivesLp').textContent = p.fives.lp;
+  document.getElementById('ovFivesPeak').textContent = p.fives.peak || '';
 
   document.getElementById('ovFlexImg').src = TIER_IMG(p.flex.tier);
   document.getElementById('ovFlexTier').textContent = p.flex.label;
