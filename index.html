@@ -478,17 +478,17 @@ const ROLE_ORDER = ['Top','Jungle','Mid','ADC','Support'];
 
 const DEFAULT_ROSTER = [
   {
-    id:'bachie', name:'Bachie', tag:'NA1', level:1103,
+    id:'bachie', name:'Bachie', tag:'NA1', level:1115,
     icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon7178.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Bachie-NA1',
-    roles:{primary:'ADC', secondary:'Jungle', flexNote:'Comfort-picks Kha\u2019Zix when the team needs a duelist instead of a fourth ranged carry.'},
+    roles:{primary:'Top', secondary:'ADC', flexNote:'Recent role share is 71% Top \u2014 the ADC pool below is the old main, kept warm for nights the squad needs a bot laner.'},
     solo:{tier:'emerald', label:'Emerald 2', lp:'80 LP', peak:'Peaked Diamond 4 (S2024 S2) — OP.GG even flags this account as "D1 Peak" for the region'},
-    flex:{tier:'platinum', label:'Platinum 1', lp:'8 LP', peak:'Best flex season: Platinum 1'},
+    flex:{tier:'platinum', label:'Platinum 1', lp:'22 LP', peak:'Best flex season: Platinum 1'},
     champs:[
-      {name:'Aphelios', pts:'423,896'},
+      {name:'Aphelios', pts:'424,490'},
       {name:'Ezreal', pts:'331,403'},
-      {name:'Kaisa', pts:'331,371'},
-      {name:'Khazix', pts:'226,416'},
+      {name:'Kaisa', pts:'332,756'},
+      {name:'Khazix', pts:'232,096'},
     ],
     banNote:'Aggressive early lane bullies and hyper-mobile duelists give the ADC/Kha\u2019Zix pool the most trouble \u2014 immobile hypercarries like Aphelios get run down before they scale.',
     bans:['Draven','Samira','Zeri','Rengar'],
@@ -497,12 +497,12 @@ const DEFAULT_ROSTER = [
       newTry:{name:'Kindred', note:'Still a ranged auto-attacker, but jungle instead of bot \u2014 a natural stretch from the Kha\u2019Zix dabbling.'},
       bravery:{name:'Ornn', note:'Slow, melee, unkillable, and never kites anything. The exact opposite of every champ on this list.'}
     },
-    badges:['Certified Dawg','Aphelios Sicko','Highest Rank In The Squad'],
-    blurb:'The account with the actual peak. ADC-brained with a Kha\u2019Zix hall pass for when he wants to be the reason the enemy jungler ghosts the group chat.',
+    badges:['Top Lane Convert','Aphelios Sicko (Retired-ish)','Highest Rank In The Squad'],
+    blurb:'Used to be the account with the ADC peak. These days it\u2019s basically a Top lane account that happens to still have a top-tier Aphelios in the back pocket for whenever the squad\u2019s missing a bot laner. Also quietly running Diamond 4 in Ranked 5s (9W-11L) \u2014 arguably the number that matters most for this whole roster.',
     suggestions:[
-      'Rank floor is way below the Diamond 4 peak \u2014 the mechanics are clearly there, so the gap is probably consistency and tilt-proofing across a long ranked grind, not raw skill.',
-      'Four-champ pool spans hypercarry (Aphelios) to lane bully (Ezreal) to skirmisher (Kha\u2019Zix) \u2014 picking one identity per game plan (scale vs. snowball) instead of mixing mid-game could tighten decision-making.',
-      'Flex sits a tier below Solo/Duo peak \u2014 worth treating flex games with the same focus as solo queue instead of "just vibing," since that\u2019s exactly the kind of game a 5-stack lives in.'
+      'Role share has flipped hard to Top (71% of recent games) despite the mastery pool still being all ADC/jungle champs \u2014 that\u2019s a real lane switch, not a phase, so building an actual Top-lane champion pool beats leaning on bot-lane muscle memory.',
+      'Four-champ ADC/jungle pool spans hypercarry (Aphelios) to lane bully (Ezreal) to skirmisher (Kha\u2019Zix) \u2014 still useful as a fallback identity for the nights Top isn\u2019t needed.',
+      'Ranked 5s sits at Diamond 4 (9W-11L) \u2014 noticeably sharper than solo queue, which tracks: this is exactly the format the squad\u2019s been building toward.'
     ]
   },
   {
@@ -674,15 +674,15 @@ const DEFAULT_ROSTER = [
     }
   },
   {
-    id:'eldyn', name:'Eldyn', tag:'1421', level:697,
-    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon6948.jpg?image=q_auto:good,f_png,w_200',
+    id:'eldyn', name:'Eldyn', tag:'1421', level:698,
+    icon:'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon3152.jpg?image=q_auto:good,f_png,w_200',
     opgg:'https://op.gg/lol/summoners/na/Eldyn-1421',
     roles:{primary:'Top', secondary:'Jungle', flexNote:'Thresh and Alistar mastery means support is a legit third option too.'},
     solo:{tier:'emerald', label:'Emerald 4', lp:'28 LP', peak:'Peaked Emerald 1 (S2024 S1) \u2014 Emerald in five straight logged ranked seasons'},
     flex:{tier:'platinum', label:'Platinum 2', lp:'84 LP', peak:'Best Flex finish: Platinum 2'},
     champs:[
-      {name:'Sion', pts:'284,368'},
-      {name:'LeeSin', pts:'198,557'},
+      {name:'Sion', pts:'285,125'},
+      {name:'LeeSin', pts:'201,073'},
       {name:'Thresh', pts:'127,978'},
       {name:'Alistar', pts:'122,416'},
     ],
@@ -1037,7 +1037,7 @@ renderGrid();
    "set up global count" under the cookie once, paste the ID it
    gives you below, save, and re-upload. After that, everyone who
    opens the page shares the SAME cumulative cookie count. */
-const COOKIE_BUCKET_ID = '7NwW8KvAZBk4wayjyV9gc9';
+const COOKIE_BUCKET_ID = '';
 const COOKIE_KVDB_BASE = 'https://kvdb.io';
 
 let clickerCount = parseInt(localStorage.getItem('sigmaStackClicks')||'0', 10) || 0;
